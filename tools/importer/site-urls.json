@@ -1,0 +1,41 @@
+{
+    "originUrl": "https://education.nsw.gov.au",
+    "lastCrawled": "https://education.nsw.gov.au",
+    "urls": [
+      {
+        "url": "https://education.nsw.gov.au/",
+        "source": "CRAWL",
+        "targetPath": "/index",
+        "id": "08c44ec601d25fdaecc58fb2c3e48ff41d6e2852"
+      },
+      {
+        "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+        "source": "CRAWL",
+        "targetPath": "/early-childhood-education/leadership/sector-updates",
+        "id": "b94479db1ac5bbf784606878fb8fd68b085d2c95"
+      },
+      {
+        "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+        "source": "CRAWL",
+        "targetPath": "/skills-nsw/students-and-job-seekers",
+        "id": "917f933356475ebf67b932b1c951bdce0807cf3e"
+      },
+      {
+        "url": "https://www.nsw.gov.au/about-nsw/public-holidays",
+        "source": "CRAWL",
+        "targetPath": "/about-nsw/public-holidays",
+        "id": "2b3ed15c4d3acef5c2c80c16b55f9aa8bca16f34"
+      }
+    ],
+    "crawlOptions": {
+      "timeout": 64800000,
+      "inclusionPatterns": [],
+      "exclusionPatterns": [],
+      "limit": 4,
+      "sameDomain": false,
+      "keepHash": false,
+      "strategy": "crawl",
+      "logger": {}
+    },
+    "extractionErrors": []
+  }
