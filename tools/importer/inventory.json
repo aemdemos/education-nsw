@@ -118,7 +118,7 @@
           "url": "https://www.nsw.gov.au/about-nsw/public-holidays",
           "urlHash": "1e8c6ae30dc3f3c22b24280b09433c45e222671f",
           "uuid": "1e8c6ae3-08-8b9ba9b6373d8311002541c560a3c6c6f724bb36",
-          "xpath": "/html/body/div[1]/div/main/div[2]/article/section[5]/div/div/main/div[1]/div"
+          "xpath": "/html[1]/body[1]/div[1]/div[1]/main[1]/div[2]/article[1]/section[5]/div[1]/div[1]/main[1]/div[1]"
         }
       ]
     },
