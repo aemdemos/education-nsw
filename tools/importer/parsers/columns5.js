@@ -1,27 +1,34 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  const headerRow = ['Columns (columns5)'];
-
-  // Extracting content elements
-  const content = document.createElement('div');
+  // Extract the relevant title from the feature content
   const title = element.querySelector('.dcs-feature__title');
-  const text = element.querySelector('.dcs-feature__html');
+
+  // Extract the textual content paragraphs
+  const paragraphs = Array.from(
+    element.querySelectorAll('.dcs-feature__html p')
+  );
+
+  // Extract the button (link) element
   const button = element.querySelector('.dcs-feature__link');
 
-  if (title) content.appendChild(title);
-  if (text) content.appendChild(text);
-  if (button) content.appendChild(button);
+  // Extract and keep the image element
+  const image = element.querySelector('.dcs-feature__image img');
 
-  // Extracting image element
-  const imageContainer = element.querySelector('.dcs-feature__image img');
+  // Structure the header row for the table
+  const headerRow = ['Columns (columns5)'];
 
-  // Create the cells array for the table
-  const cells = [
-    headerRow,
-    [content, imageContainer],
+  // Structure the content row with text and image side by side
+  const contentRow = [
+    [title, ...paragraphs, button],
+    image,
   ];
 
-  // Create the table using WebImporter.DOMUtils.createTable and replace the element
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  // Create the block table using WebImporter.DOMUtils.createTable()
+  const blockTable = WebImporter.DOMUtils.createTable(
+    [headerRow, contentRow],
+    document
+  );
+
+  // Replace the original element with the new block table
+  element.replaceWith(blockTable);
 }

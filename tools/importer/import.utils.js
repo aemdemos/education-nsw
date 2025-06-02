@@ -97,7 +97,7 @@ export function generateDocumentPath({ params: { originalURL } }, inventory) {
   let p;
   const urlEntry = inventory.urls?.find(({ url }) => url === originalURL);
   if (urlEntry?.targetPath) {
-    p = urlEntry.targetPath;
+    p = urlEntry.targetPath === '/' ? '/index' : urlEntry.targetPath;
   } else {
     // fallback to original URL pathname
     p = new URL(originalURL).pathname;
@@ -160,7 +160,7 @@ export const TableBuilder = (originalFunc) => {
   };
 };
 
-function reduceInstances(instances) {
+function reduceInstances(instances = []) {
   return instances.map(({ urlHash, xpath, uuid }) => ({
     urlHash,
     xpath,

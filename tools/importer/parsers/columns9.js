@@ -1,49 +1,46 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-    const cells = [];
+  const headerRow = ['Columns (columns9)'];
 
-    // Fix header row to match the example exactly
-    cells.push(['Columns block']);
+  const groups = Array.from(element.querySelectorAll(':scope > div > div > div'));
 
-    // Extract all groups (immediate children divs)
-    const groups = element.querySelectorAll(':scope > div > div > div.nsw-footer__group');
+  const contentRows = groups.map((group) => {
+    const heading = group.querySelector('h3');
+    const links = Array.from(group.querySelectorAll('ul > li > a')).map(link => {
+      const anchor = document.createElement('a');
+      anchor.href = link.href;
+      anchor.textContent = link.textContent;
 
-    const columnContent = [];
+      if (link.classList.contains('is-external') && link.hasAttribute('rel')) {
+        anchor.setAttribute('rel', link.getAttribute('rel'));
+      }
 
-    groups.forEach(group => {
-        // Extract heading text and convert it into plain text
-        const heading = group.querySelector('h3');
-        const headingText = heading ? heading.textContent.trim() : '';
-
-        // Extract links and include them as elements
-        const links = Array.from(group.querySelectorAll('ul li a')).map(link => {
-            const anchor = document.createElement('a');
-            anchor.href = link.href;
-            anchor.textContent = link.textContent.trim();
-            return anchor;
-        });
-
-        // Combine heading text and links as plain content (list format)
-        const list = document.createElement('ul');
-        if (headingText) {
-            const headingItem = document.createElement('li');
-            headingItem.textContent = headingText;
-            list.appendChild(headingItem);
-        }
-        links.forEach(link => {
-            const linkItem = document.createElement('li');
-            linkItem.appendChild(link);
-            list.appendChild(linkItem);
-        });
-
-        columnContent.push(list);
+      return anchor;
     });
 
-    // Add content row
-    cells.push(columnContent);
+    const cellContent = [];
 
-    const table = WebImporter.DOMUtils.createTable(cells, document);
+    if (heading) {
+      const headingElement = document.createElement('h3');
+      headingElement.appendChild(document.createTextNode(heading.textContent));
+      cellContent.push(headingElement);
+    }
 
-    // Replace the element with the newly created table
-    element.replaceWith(table);
+    if (links.length > 0) {
+      const list = document.createElement('ul');
+      links.forEach(anchor => {
+        const listItem = document.createElement('li');
+        listItem.appendChild(anchor);
+        list.appendChild(listItem);
+      });
+      cellContent.push(list);
+    }
+
+    return cellContent.length > 0 ? [cellContent] : [];
+  }).filter(row => row.length > 0);
+
+  const tableData = [headerRow, ...contentRows];
+  const table = WebImporter.DOMUtils.createTable(tableData, document);
+
+  element.replaceWith(table);
 }

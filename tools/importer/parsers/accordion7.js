@@ -1,26 +1,39 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
+  // Define the header row with proper block naming
   const headerRow = ['Accordion (accordion7)'];
+
+  // Initialize an array to store rows for the table
   const rows = [];
 
-  // Select all accordion titles and content within the given element
-  const accordionTitles = element.querySelectorAll(':scope > .nsw-accordion__title');
-  const accordionContents = element.querySelectorAll(':scope > .nsw-accordion__content');
+  // Select all accordion titles and content within the immediate scope of the element
+  const accordionTitles = element.querySelectorAll(':scope > div.nsw-accordion > div.nsw-accordion__title');
+  const accordionContents = element.querySelectorAll(':scope > div.nsw-accordion > div.nsw-accordion__content');
 
-  // Iterate over titles and contents to create rows
+  // Ensure the number of titles matches the number of content blocks
+  if (accordionTitles.length !== accordionContents.length) {
+    console.warn('Mismatch between accordion titles and content. Titles:', accordionTitles.length, 'Contents:', accordionContents.length);
+  }
+
+  // Iterate through the accordion titles and contents, pairing them into rows
   accordionTitles.forEach((title, index) => {
-    const content = accordionContents[index];
-    if (content) {
-      rows.push([title, content]);
+    const titleButton = title.querySelector('button'); // Extract the button containing the title text
+    const content = accordionContents[index]?.querySelector('.nsw-wysiwyg-content'); // Extract content within the matched accordion
+
+    // Handle cases where content or title might be missing
+    if (titleButton && content) {
+      rows.push([titleButton, content]);
+    } else {
+      console.warn('Skipped a row due to missing title or content. Index:', index);
     }
   });
 
-  // Combine header and rows into a table structure
+  // Combine the header row with the extracted rows
   const cells = [headerRow, ...rows];
 
-  // Create the block table using the helper function
-  const blockTable = WebImporter.DOMUtils.createTable(cells, document);
+  // Create the table block using DOMUtils helper
+  const block = WebImporter.DOMUtils.createTable(cells, document);
 
-  // Replace the original element with the new block table
-  element.replaceWith(blockTable);
+  // Replace the original element with the generated block table
+  element.replaceWith(block);
 }

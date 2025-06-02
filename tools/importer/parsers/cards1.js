@@ -1,29 +1,23 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Step 1: Extract relevant content dynamically from the HTML structure
+  const headerRow = ['Cards (cards1)'];
 
-  // Extract the content inside <p> tag within the noticeboard block
-  const contentParagraph = element.querySelector('.nsw-wysiwyg-content p');
+  // Extracting dynamic content from the provided element
+  const contentWrapper = element.querySelector('.nsw-global-alert__content');
+  const link = contentWrapper?.querySelector('a');
 
-  if (!contentParagraph) {
-    console.warn('No content found inside .nsw-wysiwyg-content p');
+  if (!link) {
+    console.warn('Link is missing in the content wrapper');
     return;
   }
 
-  // Step 2: Define header row matching example structure
-  const headerRow = ['Cards (cards1)'];
-
-  // Step 3: Organize content into a table structure
-  const contentRow = [contentParagraph];
-
-  const tableData = [
+  const cells = [
     headerRow,
-    contentRow,
+    [link]
   ];
 
-  // Step 4: Create the block table using the helper function
-  const blockTable = WebImporter.DOMUtils.createTable(tableData, document);
+  const table = WebImporter.DOMUtils.createTable(cells, document);
 
-  // Step 5: Replace original element with the new block table
-  element.replaceWith(blockTable);
+  // Replace the original element with the new table block
+  element.replaceWith(table);
 }
