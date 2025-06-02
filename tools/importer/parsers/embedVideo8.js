@@ -1,29 +1,40 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
+  // Header row with the correct label
   const headerRow = ['Embed (embedVideo8)'];
 
-  // Extract relevant content from the element
-  const thumbsDescription = element.querySelector('.thumbs__description');
-  const feedbackContainer = element.querySelector('#onegov-quickfeed-container');
+  // Locate the video/image and embed link dynamically from the element
+  const iframe = element.querySelector(':scope iframe[src]');
+  const image = element.querySelector(':scope img[src]');
 
-  // Create a link for the embedded content
-  const link = document.createElement('a');
-  link.href = feedbackContainer?.dataset.onegovEnv ? `https://vimeo.com/454418448` : '#';
-  link.textContent = feedbackContainer?.dataset.onegovEnv ? 'https://vimeo.com/454418448' : 'No URL found';
+  // Create the content row dynamically based on available data
+  const contentRow = [];
 
-  // Combine content into a single cell
-  const combinedContent = document.createElement('div');
-  combinedContent.append(link);
-  if (thumbsDescription) {
-    combinedContent.append(document.createElement('br'));
-    combinedContent.append(thumbsDescription);
+  if (image) {
+    contentRow.push(image); // Reference the existing image element directly
+  }
+  if (iframe) {
+    const videoLink = document.createElement('a');
+    videoLink.href = iframe.src;
+    videoLink.textContent = iframe.src;
+    contentRow.push(videoLink); // Append the dynamically created link to the row
   }
 
-  const contentRow = [combinedContent];
+  if (contentRow.length === 0) {
+    // Handle edge case where no image or iframe is provided
+    const placeholder = document.createElement('p');
+    placeholder.textContent = 'No embed content available';
+    contentRow.push(placeholder);
+  }
 
-  // Create the table
-  const table = WebImporter.DOMUtils.createTable([headerRow, contentRow], document);
+  // Construct the table structure
+  const cells = [
+    headerRow,
+    [contentRow]
+  ];
 
-  // Replace the original element with the new table
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+
+  // Replace the original element with the created table
   element.replaceWith(table);
 }

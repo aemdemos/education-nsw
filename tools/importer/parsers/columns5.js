@@ -2,27 +2,26 @@
 export default function parse(element, { document }) {
   const headerRow = ['Columns (columns5)'];
 
-  // Extract the content from the left column
-  const contentBlock = element.querySelector(':scope .dcs-feature__content');
+  // Extracting content elements
+  const content = document.createElement('div');
+  const title = element.querySelector('.dcs-feature__title');
+  const text = element.querySelector('.dcs-feature__html');
+  const button = element.querySelector('.dcs-feature__link');
 
-  const title = contentBlock.querySelector('.dcs-feature__title');
-  const paragraphs = Array.from(contentBlock.querySelectorAll('.dcs-feature__html p'));
-  const link = contentBlock.querySelector('.dcs-feature__link');
+  if (title) content.appendChild(title);
+  if (text) content.appendChild(text);
+  if (button) content.appendChild(button);
 
-  // Extract the image
-  const imageBlock = element.querySelector(':scope .dcs-feature__image img');
+  // Extracting image element
+  const imageContainer = element.querySelector('.dcs-feature__image img');
 
-  const firstRow = [
-    [title, ...paragraphs, link], // Left column with title, paragraphs, and link
-    imageBlock, // Image in the right column
-  ];
-
+  // Create the cells array for the table
   const cells = [
     headerRow,
-    firstRow,
+    [content, imageContainer],
   ];
 
-  const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  element.replaceWith(block); // Correct replacement removes return
+  // Create the table using WebImporter.DOMUtils.createTable and replace the element
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(table);
 }

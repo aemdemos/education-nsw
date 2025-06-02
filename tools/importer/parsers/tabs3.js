@@ -2,39 +2,14 @@
 export default function parse(element, { document }) {
   const headerRow = ['Tabs (tabs3)'];
 
-  const rows = [];
+  const rows = Array.from(element.querySelectorAll(':scope > nav > ul.dcs-main-nav__list > li')).map(tab => {
+    const tabLabel = tab.querySelector(':scope > a > span')?.textContent.trim();
+    const tabContent = tab.querySelector(':scope > div.dcs-main-nav__sub-nav') || tab.querySelector(':scope > a[itemprop="url"]');
 
-  // Query the primary list items that group tabs
-  const mainNavItems = element.querySelectorAll(':scope > nav > ul > li');
-
-  mainNavItems.forEach((navItem) => {
-    const tabLabelElement = navItem.querySelector(':scope > a span');
-    const tabContentElement = navItem.querySelector(':scope > div');
-
-    let tabLabel = tabLabelElement || ''; // Use existing tab label element
-
-    if (tabContentElement) {
-      // Convert links for non-image elements with 'src' attributes
-      const iframeElements = tabContentElement.querySelectorAll('[src]:not(img)');
-      iframeElements.forEach((iframe) => {
-        const link = document.createElement('a');
-        link.href = iframe.src;
-        link.textContent = iframe.src;
-        iframe.replaceWith(link);
-      });
-
-      rows.push([tabLabel, tabContentElement]);
-    } else {
-      // Handle tabs with no content
-      const placeholderContent = document.createElement('p');
-      placeholderContent.textContent = 'No additional content available.';
-      rows.push([tabLabel, placeholderContent]);
-    }
+    return [tabLabel, tabContent];
   });
 
-  const cells = [headerRow, ...rows];
+  const table = WebImporter.DOMUtils.createTable([headerRow, ...rows], document);
 
-  const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  element.replaceWith(block);
+  element.replaceWith(table);
 }

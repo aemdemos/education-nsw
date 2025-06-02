@@ -1,46 +1,49 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Extract the footer groups
-  const groups = Array.from(element.querySelectorAll(':scope > div > div > div.nsw-footer__group'));
+    const cells = [];
 
-  // Define the header row with the exact text as specified in the example
-  const headerRow = ['Columns (columns9)'];
+    // Fix header row to match the example exactly
+    cells.push(['Columns block']);
 
-  // Process the groups into rows
-  const rows = groups.map((group) => {
-    // Extract heading and links
-    const heading = group.querySelector('h3');
-    const links = group.querySelectorAll('ul li a');
+    // Extract all groups (immediate children divs)
+    const groups = element.querySelectorAll(':scope > div > div > div.nsw-footer__group');
 
-    // Create a container for heading and links
-    const content = document.createElement('div');
+    const columnContent = [];
 
-    // Include the heading
-    if (heading) {
-      const headingClone = heading.cloneNode(true);
-      content.appendChild(headingClone);
-    }
+    groups.forEach(group => {
+        // Extract heading text and convert it into plain text
+        const heading = group.querySelector('h3');
+        const headingText = heading ? heading.textContent.trim() : '';
 
-    // Include the links as a list
-    if (links.length > 0) {
-      const list = document.createElement('ul');
-      links.forEach((link) => {
-        const listItem = document.createElement('li');
-        listItem.appendChild(link.cloneNode(true));
-        list.appendChild(listItem);
-      });
-      content.appendChild(list);
-    }
+        // Extract links and include them as elements
+        const links = Array.from(group.querySelectorAll('ul li a')).map(link => {
+            const anchor = document.createElement('a');
+            anchor.href = link.href;
+            anchor.textContent = link.textContent.trim();
+            return anchor;
+        });
 
-    return [content];
-  });
+        // Combine heading text and links as plain content (list format)
+        const list = document.createElement('ul');
+        if (headingText) {
+            const headingItem = document.createElement('li');
+            headingItem.textContent = headingText;
+            list.appendChild(headingItem);
+        }
+        links.forEach(link => {
+            const linkItem = document.createElement('li');
+            linkItem.appendChild(link);
+            list.appendChild(linkItem);
+        });
 
-  // Combine header row and content rows into table structure
-  const tableData = [headerRow, ...rows];
+        columnContent.push(list);
+    });
 
-  // Create the table using the WebImporter helper
-  const block = WebImporter.DOMUtils.createTable(tableData, document);
+    // Add content row
+    cells.push(columnContent);
 
-  // Replace the original element with the new table block
-  element.replaceWith(block);
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+
+    // Replace the element with the newly created table
+    element.replaceWith(table);
 }
