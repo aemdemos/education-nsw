@@ -4,7 +4,7 @@ export default function parse(element, { document }) {
     const extractAccordionItems = (blockElement) => {
         const rows = [];
 
-        // Header row
+        // Header row with proper block name
         rows.push(['Accordion (accordion7)']);
 
         // Accordion items
@@ -13,12 +13,17 @@ export default function parse(element, { document }) {
 
         accordionTitles.forEach((titleElement, index) => {
             const titleButton = titleElement.querySelector('button');
-            const titleCell = titleButton ? titleButton.cloneNode(true) : '';
+            const titleCell = titleButton ? titleButton.cloneNode(true) : document.createTextNode('');
 
             const contentElement = accordionContents[index];
-            const contentCell = contentElement ? contentElement.cloneNode(true) : '';
+            const contentCell = contentElement ? contentElement.cloneNode(true) : document.createTextNode('');
 
-            rows.push([titleCell, contentCell]);
+            // Create a structured row with title and content
+            const row = [
+                titleCell,
+                contentCell
+            ];
+            rows.push(row);
         });
 
         return rows;
@@ -27,9 +32,15 @@ export default function parse(element, { document }) {
     // Extract the accordion items from the element
     const accordionRows = extractAccordionItems(element);
 
-    // Create the table block
+    // Create the table block with proper structure
     const tableBlock = WebImporter.DOMUtils.createTable(accordionRows, document);
+
+    // Add proper block class
+    tableBlock.classList.add('accordion', 'block');
 
     // Replace the original element with the new table block
     element.replaceWith(tableBlock);
+
+    // Return the table block
+    return tableBlock;
 }

@@ -117,43 +117,83 @@ export const TableBuilder = (originalFunc) => {
 
   return {
     build: (parserName) => (cells, document) => {
-      if (cells.length > 0 && Array.isArray(cells[0])) {
-        const current = cells[0][0];
-        // Handle Section Metadata specially
-        if (current?.toLowerCase().includes('section metadata')) {
-          const styleRow = cells.find((row) => row[0]?.toLowerCase() === 'style');
-          if (styleRow) {
-            if (styleRow.length > 1) {
-              const existingStyles = styleRow[1].split(',').map((s) => s.trim());
-              if (!existingStyles.includes(parserName)) {
-                existingStyles.push(parserName);
-                styleRow[1] = existingStyles.join(', ');
-              }
-            } else {
-              styleRow[1] = parserName;
-            }
-          } else {
-            cells.push(['style', parserName]);
-          }
-          return original(cells, document); // skip the rest
-        } else if (current?.toLowerCase().includes('metadata')) {
-          return original(cells, document); // skip the rest
-        }
+      if (!Array.isArray(cells) || cells.length === 0) {
+        return original(cells, document);
+      }
 
-        const variantMatch = current.match(/\(([^)]+)\)/);
+      // Handle Section Metadata
+      if (cells[0]?.[0]?.toLowerCase().includes('section metadata')) {
+        const styleRow = cells.find((row) => row[0]?.toLowerCase() === 'style');
+        if (styleRow) {
+          const existingStyles = styleRow[1]?.split(',').map((s) => s.trim()) || [];
+          if (!existingStyles.includes(parserName)) {
+            existingStyles.push(parserName);
+            styleRow[1] = existingStyles.join(', ');
+          }
+        } else {
+          cells.push(['style', parserName]);
+        }
+        return original(cells, document);
+      }
+
+      // Handle Metadata blocks
+      if (cells[0]?.[0]?.toLowerCase().includes('metadata')) {
+        return original(cells, document);
+      }
+
+      // Handle regular blocks
+      const firstCell = cells[0]?.[0];
+      if (firstCell) {
+        const variantMatch = firstCell.match(/\(([^)]+)\)/);
         if (variantMatch) {
           const existingVariants = variantMatch[1].split(',').map((v) => v.trim());
           if (!existingVariants.includes(parserName)) {
             existingVariants.push(parserName);
           }
-          const baseName = current.replace(/\s*\([^)]+\)/, '').trim();
+          const baseName = firstCell.replace(/\s*\([^)]+\)/, '').trim();
           cells[0][0] = `${baseName} (${existingVariants.join(', ')})`;
         } else {
-          cells[0][0] = `${current} (${parserName})`;
+          cells[0][0] = `${firstCell} (${parserName})`;
         }
       }
 
-      return original(cells, document);
+      // Ensure proper table structure
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      cells.forEach((row, rowIndex) => {
+        const tr = document.createElement('tr');
+        row.forEach((cell) => {
+          const td = document.createElement(rowIndex === 0 ? 'th' : 'td');
+          if (rowIndex === 0) td.setAttribute('scope', 'column');
+          
+          if (cell instanceof Node) {
+            td.appendChild(cell.cloneNode(true));
+          } else if (Array.isArray(cell)) {
+            cell.forEach((subCell) => {
+              if (subCell instanceof Node) {
+                td.appendChild(subCell.cloneNode(true));
+              } else if (typeof subCell === 'string') {
+                td.innerHTML += subCell;
+              }
+            });
+          } else if (typeof cell === 'string') {
+            td.innerHTML = cell;
+          }
+          tr.appendChild(td);
+        });
+        
+        if (rowIndex === 0) {
+          thead.appendChild(tr);
+        } else {
+          tbody.appendChild(tr);
+        }
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      return table;
     },
 
     restore: () => original,
