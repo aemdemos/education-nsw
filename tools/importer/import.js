@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Adobe. All rights reserved.
+ * Copyright 2025 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -9,90 +9,248 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-/* global WebImporter */
-/* eslint-disable no-console */
-import search2Parser from './parsers/search2.js';
-import tabs3Parser from './parsers/tabs3.js';
-import embedVideo8Parser from './parsers/embedVideo8.js';
-import columns5Parser from './parsers/columns5.js';
-import columns6Parser from './parsers/columns6.js';
-import columns9Parser from './parsers/columns9.js';
-import accordion4Parser from './parsers/accordion4.js';
-import accordion7Parser from './parsers/accordion7.js';
-import cards1Parser from './parsers/cards1.js';
-import headerParser from './parsers/header.js';
-import metadataParser from './parsers/metadata.js';
-import cleanupTransformer from './transformers/cleanup.js';
-import imageTransformer from './transformers/images.js';
-import linkTransformer from './transformers/links.js';
-import { TransformHook } from './transformers/transform.js';
-import {
-  generateDocumentPath,
-  handleOnLoad,
-  TableBuilder,
-  mergeInventory,
-} from './import.utils.js';
+/* global WebImporter Saurabh Saxena*/
 
-const parsers = {
-  metadata: metadataParser,
-  search2: search2Parser,
-  tabs3: tabs3Parser,
-  embedVideo8: embedVideo8Parser,
-  columns5: columns5Parser,
-  columns6: columns6Parser,
-  columns9: columns9Parser,
-  accordion4: accordion4Parser,
-  accordion7: accordion7Parser,
-  cards1: cards1Parser,
-};
+export async function handleOnLoad({ document }) {
+  // send 'esc' keydown event to close the dialog
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      altKey: false,
+      code: 'Escape',
+      ctrlKey: false,
+      isComposing: false,
+      key: 'Escape',
+      location: 0,
+      metaKey: false,
+      repeat: false,
+      shiftKey: false,
+      which: 27,
+      charCode: 0,
+      keyCode: 27,
+    }),
+  );
+  document.elementFromPoint(0, 0)?.click();
 
-const transformers = {
-  cleanup: cleanupTransformer,
-  images: imageTransformer,
-  links: linkTransformer,
-};
+  // mark hidden elements
+  document.querySelectorAll('*').forEach((el) => {
+    if (
+      el
+      && (
+        /none/i.test(window.getComputedStyle(el).display.trim())
+        || /hidden/i.test(window.getComputedStyle(el).visibility.trim())
+      )
+    ) {
+      el.setAttribute('data-hlx-imp-hidden-div', '');
+    }
+  });
 
-WebImporter.Import = {
-  findSiteUrl: (instance, siteUrls) => (
-    siteUrls.find(({ id }) => id === instance.urlHash)
-  ),
-  transform: (hookName, element, payload) => {
-    // perform any additional transformations to the page
-    Object.entries(transformers).forEach(([, transformerFn]) => (
-      transformerFn.call(this, hookName, element, payload)
-    ));
-  },
-  getParserName: ({ name, key }) => key || name,
-  getElementByXPath: (document, xpath) => {
-    const result = document.evaluate(
-      xpath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null,
-    );
-    return result.singleNodeValue;
-  },
-  getFragmentXPaths: (
-    { urls = [], fragments = [] },
-    sourceUrl = '',
-  ) => (fragments.flatMap(({ instances = [] }) => instances)
-    .filter((instance) => {
-      // find url in urls array
-      const siteUrl = WebImporter.Import.findSiteUrl(instance, urls);
-      if (!siteUrl) {
-        return false;
+  // mark hidden divs + add bounding client rect data to all "visible" divs
+  document.querySelectorAll('div').forEach((div) => {
+    if (
+      div
+      && (
+        /none/i.test(window.getComputedStyle(div).display.trim())
+        || /hidden/i.test(window.getComputedStyle(div).visibility.trim())
+      )
+    ) {
+      div.setAttribute('data-hlx-imp-hidden-div', '');
+    } else {
+      const domRect = div.getBoundingClientRect().toJSON();
+      if (Math.round(domRect.width) > 0 && Math.round(domRect.height) > 0) {
+        div.setAttribute('data-hlx-imp-rect', JSON.stringify(domRect));
       }
-      return siteUrl.url === sourceUrl;
-    })
-    .map(({ xpath }) => xpath)),
-};
+      const bgImage = window.getComputedStyle(div).getPropertyValue('background-image');
+      if (bgImage && bgImage !== 'none' && bgImage.includes('url(')) {
+        div.setAttribute('data-hlx-background-image', bgImage);
+      }
+      const bgColor = window.getComputedStyle(div).getPropertyValue('background-color');
+      if (bgColor && bgColor !== 'rgb(0, 0, 0)' && bgColor !== 'rgba(0, 0, 0, 0)') {
+        div.setAttribute('data-hlx-imp-bgcolor', bgColor);
+      }
+      const color = window.getComputedStyle(div).getPropertyValue('color');
+      if (color && color !== 'rgb(0, 0, 0)') {
+        div.setAttribute('data-hlx-imp-color', color);
+      }
+    }
+  });
 
-const pageElements = [{ name: 'metadata' }];
+  // fix image with only srcset attribute (not supported in helix-importer)
+  document.querySelectorAll('img').forEach((img) => {
+    const src = img.getAttribute('src');
+    const srcset = img.getAttribute('srcset')?.split(' ')[0];
+    if (!src && srcset) {
+      img.setAttribute('src', srcset);
+    }
+  });
+
+  // get body width
+  const bodyWidth = document.body.getBoundingClientRect().width;
+  document.body.setAttribute('data-hlx-imp-body-width', bodyWidth);
+}
 
 /**
-* Page transformation function
+ * Generate document path
+ * @param {string} url
+ * @returns {string}
 */
+export function generateDocumentPath({ params: { originalURL } }, inventory) {
+  let p;
+  const urlEntry = inventory.urls?.find(({ url }) => url === originalURL);
+  if (urlEntry?.targetPath) {
+    p = urlEntry.targetPath;
+  } else {
+    // fallback to original URL pathname
+    p = new URL(originalURL).pathname;
+    if (p.endsWith('/')) {
+      p = `${p}index`;
+    }
+    p = decodeURIComponent(p)
+      .toLowerCase()
+      .replace(/\.html$/, '')
+      .replace(/[^a-z0-9/]/gm, '-');
+  }
+  return WebImporter.FileUtils.sanitizePath(p);
+}
+
+export const TableBuilder = (originalFunc) => {
+  const original = originalFunc;
+
+  return {
+    build: (parserName) => (cells, document) => {
+      if (!Array.isArray(cells) || cells.length === 0) {
+        return original(cells, document);
+      }
+
+      // Handle Section Metadata
+      if (cells[0]?.[0]?.toLowerCase().includes('section metadata')) {
+        const styleRow = cells.find((row) => row[0]?.toLowerCase() === 'style');
+        if (styleRow) {
+          const existingStyles = styleRow[1]?.split(',').map((s) => s.trim()) || [];
+          if (!existingStyles.includes(parserName)) {
+            existingStyles.push(parserName);
+            styleRow[1] = existingStyles.join(', ');
+          }
+        } else {
+          cells.push(['style', parserName]);
+        }
+        return original(cells, document);
+      }
+
+      // Handle Metadata blocks
+      if (cells[0]?.[0]?.toLowerCase().includes('metadata')) {
+        return original(cells, document);
+      }
+
+      // Handle regular blocks
+      const firstCell = cells[0]?.[0];
+      if (firstCell) {
+        const variantMatch = firstCell.match(/\(([^)]+)\)/);
+        if (variantMatch) {
+          const existingVariants = variantMatch[1].split(',').map((v) => v.trim());
+          if (!existingVariants.includes(parserName)) {
+            existingVariants.push(parserName);
+          }
+          const baseName = firstCell.replace(/\s*\([^)]+\)/, '').trim();
+          cells[0][0] = `${baseName} (${existingVariants.join(', ')})`;
+        } else {
+          cells[0][0] = `${firstCell} (${parserName})`;
+        }
+      }
+
+      // Ensure proper table structure
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      cells.forEach((row, rowIndex) => {
+        const tr = document.createElement('tr');
+        row.forEach((cell) => {
+          const td = document.createElement(rowIndex === 0 ? 'th' : 'td');
+          if (rowIndex === 0) td.setAttribute('scope', 'column');
+          
+          if (cell instanceof Node) {
+            td.appendChild(cell.cloneNode(true));
+          } else if (Array.isArray(cell)) {
+            cell.forEach((subCell) => {
+              if (subCell instanceof Node) {
+                td.appendChild(subCell.cloneNode(true));
+              } else if (typeof subCell === 'string') {
+                td.innerHTML += subCell;
+              }
+            });
+          } else if (typeof cell === 'string') {
+            td.innerHTML = cell;
+          }
+          tr.appendChild(td);
+        });
+        
+        if (rowIndex === 0) {
+          thead.appendChild(tr);
+        } else {
+          tbody.appendChild(tr);
+        }
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      return table;
+    },
+
+    restore: () => original,
+  };
+};
+
+function reduceInstances(instances) {
+  return instances.map(({ urlHash, xpath, uuid }) => ({
+    urlHash,
+    xpath,
+    uuid,
+  }));
+}
+
+/**
+ * Merges site-urls into inventory with an optimized format
+ * @param {Object} siteUrls - The contents of site-urls.json
+ * @param {Object} inventory - The contents of inventory.json
+ * @param {string} publishUrl - The publish URL to use if targetUrl is not provided
+ * @returns {Object} The merged inventory data in the new format
+ */
+export function mergeInventory(siteUrls, inventory, publishUrl) {
+  // Extract originUrl and targetUrl from siteUrls
+  const { originUrl, targetUrl } = siteUrls;
+
+  // Transform URLs array to remove source property
+  const urls = siteUrls.urls.map(({ url, targetPath, id }) => ({
+    url,
+    targetPath,
+    id,
+  }));
+
+  // Transform fragments to use simplified instance format
+  const fragments = inventory.fragments.map((fragment) => ({
+    ...fragment,
+    instances: reduceInstances(fragment.instances),
+  }));
+
+  // Transform blocks to use simplified instance format
+  const blocks = inventory.blocks.map((block) => ({
+    ...block,
+    instances: reduceInstances(block.instances),
+  }));
+
+  // Transform outliers to use simplified instance format
+  const outliers = reduceInstances(inventory.outliers);
+
+  return {
+    originUrl,
+    targetUrl: targetUrl || publishUrl,
+    urls,
+    fragments,
+    blocks,
+    outliers,
+  };
+}
+
 function transformPage(main, { inventory, ...source }) {
   const { urls = [], blocks: inventoryBlocks = [] } = inventory;
   const { document, params: { originalURL } } = source;
@@ -142,148 +300,3 @@ function transformPage(main, { inventory, ...source }) {
     }
   });
 }
-
-/**
-* Fragment transformation function
-*/
-function transformFragment(main, { fragment, inventory, ...source }) {
-  const { document, params: { originalURL } } = source;
-
-  if (fragment.name === 'nav') {
-    const navEl = document.createElement('div');
-
-    // get number of blocks in the nav fragment
-    const navBlocks = Math.floor(fragment.instances.length / fragment.instances.filter((ins) => ins.uuid.includes('-00-')).length);
-    console.log('navBlocks', navBlocks);
-
-    for (let i = 0; i < navBlocks; i += 1) {
-      const { xpath } = fragment.instances[i];
-      const el = WebImporter.Import.getElementByXPath(document, xpath);
-      if (!el) {
-        console.warn(`Failed to get element for xpath: ${xpath}`);
-      } else {
-        navEl.append(el);
-      }
-    }
-
-    // body width
-    const bodyWidthAttr = document.body.getAttribute('data-hlx-imp-body-width');
-    const bodyWidth = bodyWidthAttr ? parseInt(bodyWidthAttr, 10) : 1000;
-
-    try {
-      const headerBlock = headerParser(navEl, {
-        ...source, document, fragment, bodyWidth,
-      });
-      main.append(headerBlock);
-    } catch (e) {
-      console.warn('Failed to parse header block', e);
-    }
-  } else {
-    const tableBuilder = TableBuilder(WebImporter.DOMUtils.createTable);
-
-    (fragment.instances || [])
-      .filter((instance) => {
-        const siteUrl = WebImporter.Import.findSiteUrl(instance, inventory.urls);
-        if (!siteUrl) {
-          return false;
-        }
-        return `${siteUrl.url}#${fragment.name}` === originalURL;
-      })
-      .map(({ xpath }) => ({
-        xpath,
-        element: WebImporter.Import.getElementByXPath(document, xpath),
-      }))
-      .filter(({ element }) => element)
-      .forEach(({ xpath, element }) => {
-        main.append(element);
-
-        const fragmentBlock = inventory.blocks
-          .find(({ instances }) => instances.find((instance) => {
-            const siteUrl = WebImporter.Import.findSiteUrl(instance, inventory.urls);
-            return `${siteUrl.url}#${fragment.name}` === originalURL && instance.xpath === xpath;
-          }));
-
-        if (!fragmentBlock) return;
-        const parserName = WebImporter.Import.getParserName(fragmentBlock);
-        const parserFn = parsers[parserName];
-        if (!parserFn) return;
-        try {
-          WebImporter.DOMUtils.createTable = tableBuilder.build(parserName);
-          parserFn.call(this, element, source);
-          WebImporter.DOMUtils.createTable = tableBuilder.restore();
-        } catch (e) {
-          console.warn(`Failed to parse block: ${fragmentBlock.key}, with xpath: ${xpath}`, e);
-        }
-      });
-  }
-}
-
-export default {
-  onLoad: async (payload) => {
-    await handleOnLoad(payload);
-  },
-
-  transform: async (source) => {
-    const { document, params: { originalURL } } = source;
-
-    // sanitize the original URL
-    /* eslint-disable no-param-reassign */
-    source.params.originalURL = new URL(originalURL).href;
-
-    /* eslint-disable-next-line prefer-const */
-    let publishUrl = window.location.origin;
-    // $$publishUrl = '{{{publishUrl}}}';
-
-    let inventory = null;
-    // $$inventory = {{{inventory}}};
-    if (!inventory) {
-      const siteUrlsUrl = new URL('/tools/importer/site-urls.json', publishUrl);
-      const inventoryUrl = new URL('/tools/importer/inventory.json', publishUrl);
-      try {
-        // fetch and merge site-urls and inventory
-        const siteUrlsResp = await fetch(siteUrlsUrl.href);
-        const inventoryResp = await fetch(inventoryUrl.href);
-        const siteUrls = await siteUrlsResp.json();
-        inventory = await inventoryResp.json();
-        inventory = mergeInventory(siteUrls, inventory, publishUrl);
-      } catch (e) {
-        console.error('Failed to merge site-urls and inventory');
-      }
-      if (!inventory) {
-        return [];
-      }
-    }
-
-    let main = document.body;
-
-    // before transform hook
-    WebImporter.Import.transform(TransformHook.beforeTransform, main, { ...source, inventory });
-
-    // perform the transformation
-    let path = null;
-    const sourceUrl = new URL(originalURL);
-    const fragName = sourceUrl.hash ? sourceUrl.hash.substring(1) : '';
-    if (fragName) {
-      // fragment transformation
-      const fragment = inventory.fragments.find(({ name }) => name === fragName);
-      if (!fragment) {
-        return [];
-      }
-      main = document.createElement('div');
-      transformFragment(main, { ...source, fragment, inventory });
-      path = fragment.path;
-    } else {
-      // page transformation
-      transformPage(main, { ...source, inventory });
-      path = generateDocumentPath(source, inventory);
-    }
-
-    // after transform hook
-    WebImporter.Import.transform(TransformHook.afterTransform, main, { ...source, inventory });
-
-    return [{
-      element: main,
-      path,
-    }];
-  },
-};
