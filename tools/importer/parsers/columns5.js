@@ -1,28 +1,25 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  const headerRow = ['Columns (columns5)'];
+  // Find the dcs-feature block (contains both columns)
+  const feature = element.querySelector('.dcs-feature');
+  if (!feature) return;
 
-  // Extract the content from the left column
-  const contentBlock = element.querySelector(':scope .dcs-feature__content');
+  // Left column: heading, paragraphs, and button (all in .dcs-feature__content)
+  const leftCol = feature.querySelector('.dcs-feature__content') || '';
 
-  const title = contentBlock.querySelector('.dcs-feature__title');
-  const paragraphs = Array.from(contentBlock.querySelectorAll('.dcs-feature__html p'));
-  const link = contentBlock.querySelector('.dcs-feature__link');
+  // Right column: image (picture or img in .dcs-feature__image)
+  let rightCol = '';
+  const imageContainer = feature.querySelector('.dcs-feature__image');
+  if (imageContainer) {
+    rightCol = imageContainer.querySelector('picture,img') || '';
+  }
 
-  // Extract the image
-  const imageBlock = element.querySelector(':scope .dcs-feature__image img');
-
-  const firstRow = [
-    [title, ...paragraphs, link], // Left column with title, paragraphs, and link
-    imageBlock, // Image in the right column
+  // Header row must be a single cell, matching the markdown example exactly.
+  const tableRows = [
+    ['Columns (columns5)'], // header row, exactly one column
+    [leftCol, rightCol]     // content row, 2 columns
   ];
-
-  const cells = [
-    headerRow,
-    firstRow,
-  ];
-
-  const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  element.replaceWith(block); // Correct replacement removes return
+  
+  const table = WebImporter.DOMUtils.createTable(tableRows, document);
+  element.replaceWith(table);
 }

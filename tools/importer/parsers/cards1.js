@@ -1,32 +1,23 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
+  // The header row must be exactly one column, matching the example
   const headerRow = ['Cards (cards1)'];
 
-  // Extracting content from the provided HTML structure
-  const alertContent = element.querySelector(
-    ':scope > div > div.nsw-global-alert__wrapper > div.nsw-global-alert__content > div.nsw-wysiwyg-content'
-  );
-  
-  if (!alertContent) {
-    throw new Error('Content wrapper is missing.');
+  // Extract and combine card content for a single cell
+  let cardTextContent = '';
+  const wysiwyg = element.querySelector('.nsw-wysiwyg-content');
+  if (wysiwyg) {
+    const para = wysiwyg.querySelector('p');
+    cardTextContent = para ? para : wysiwyg;
+  } else {
+    cardTextContent = element;
   }
 
-  const linkElement = alertContent.querySelector('a');
-  if (!linkElement) {
-    throw new Error('Link element is missing.');
-  }
+  // Compose the card's layout: no image, only text, in a single cell
+  const cardRow = [cardTextContent];
 
-  // Defining rows for the table
-  const contentRow = [linkElement];
-
-  // Creating the block table
-  const cells = [
-    headerRow,
-    contentRow,
-  ];
-
+  // Table: every row (including header and content) is a single column
+  const cells = [headerRow, cardRow];
   const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  // Replace the original element with the new block table
   element.replaceWith(block);
 }

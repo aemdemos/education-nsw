@@ -1,40 +1,49 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  const headerRow = ['Tabs (tabs3)'];
+  // Find the main nav menu
+  const nav = element.querySelector('nav.dcs-main-nav');
+  if (!nav) return;
+  const mainList = nav.querySelector('ul.dcs-main-nav__list--primary');
+  if (!mainList) return;
+  const liTabs = Array.from(mainList.querySelectorAll(':scope > li'));
 
   const rows = [];
+  // Header row exactly as required
+  rows.push(['Tabs (tabs3)']);
 
-  // Query the primary list items that group tabs
-  const mainNavItems = element.querySelectorAll(':scope > nav > ul > li');
-
-  mainNavItems.forEach((navItem) => {
-    const tabLabelElement = navItem.querySelector(':scope > a span');
-    const tabContentElement = navItem.querySelector(':scope > div');
-
-    let tabLabel = tabLabelElement || ''; // Use existing tab label element
-
-    if (tabContentElement) {
-      // Convert links for non-image elements with 'src' attributes
-      const iframeElements = tabContentElement.querySelectorAll('[src]:not(img)');
-      iframeElements.forEach((iframe) => {
-        const link = document.createElement('a');
-        link.href = iframe.src;
-        link.textContent = iframe.src;
-        iframe.replaceWith(link);
-      });
-
-      rows.push([tabLabel, tabContentElement]);
+  // Add a row for each tab
+  liTabs.forEach(li => {
+    // Tab label is the anchor's first span (if present) or anchor text
+    let tabLabel = '';
+    const anchor = li.querySelector(':scope > a');
+    if (anchor) {
+      // Tab label is usually the first <span> direct child
+      const labelSpan = anchor.querySelector('span');
+      if (labelSpan && labelSpan.textContent.trim()) {
+        tabLabel = labelSpan.textContent.trim();
+      } else {
+        tabLabel = anchor.textContent.trim();
+      }
     } else {
-      // Handle tabs with no content
-      const placeholderContent = document.createElement('p');
-      placeholderContent.textContent = 'No additional content available.';
-      rows.push([tabLabel, placeholderContent]);
+      // fallback: take direct text of the li
+      tabLabel = li.textContent.trim();
     }
+
+    // Tab content: submenu if present, otherwise the anchor (for non-dropdowns)
+    let tabContent = null;
+    const subNav = li.querySelector(':scope > .dcs-main-nav__sub-nav');
+    if (subNav) {
+      tabContent = subNav;
+    } else if (anchor) {
+      tabContent = anchor;
+    } else {
+      tabContent = li;
+    }
+
+    // Push the row: [label, content]
+    rows.push([tabLabel, tabContent]);
   });
 
-  const cells = [headerRow, ...rows];
-
-  const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  element.replaceWith(block);
+  const table = WebImporter.DOMUtils.createTable(rows, document);
+  element.replaceWith(table);
 }
