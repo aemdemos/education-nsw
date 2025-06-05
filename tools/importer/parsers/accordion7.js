@@ -1,39 +1,62 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Define the header row with proper block naming
+  // Accordion block header row
   const headerRow = ['Accordion (accordion7)'];
 
-  // Initialize an array to store rows for the table
-  const rows = [];
-
-  // Select all accordion titles and content within the immediate scope of the element
-  const accordionTitles = element.querySelectorAll(':scope > div.nsw-accordion > div.nsw-accordion__title');
-  const accordionContents = element.querySelectorAll(':scope > div.nsw-accordion > div.nsw-accordion__content');
-
-  // Ensure the number of titles matches the number of content blocks
-  if (accordionTitles.length !== accordionContents.length) {
-    console.warn('Mismatch between accordion titles and content. Titles:', accordionTitles.length, 'Contents:', accordionContents.length);
+  // Find the accordion container (should have class nsw-accordion)
+  let accordion = element;
+  if (!accordion.classList.contains('nsw-accordion')) {
+    accordion = element.querySelector('.nsw-accordion');
+  }
+  if (!accordion) {
+    // If still not found, fallback to input element
+    accordion = element;
   }
 
-  // Iterate through the accordion titles and contents, pairing them into rows
-  accordionTitles.forEach((title, index) => {
-    const titleButton = title.querySelector('button'); // Extract the button containing the title text
-    const content = accordionContents[index]?.querySelector('.nsw-wysiwyg-content'); // Extract content within the matched accordion
-
-    // Handle cases where content or title might be missing
-    if (titleButton && content) {
-      rows.push([titleButton, content]);
-    } else {
-      console.warn('Skipped a row due to missing title or content. Index:', index);
+  // Get all accordion item title and content pairs
+  // The order in HTML is: .nsw-accordion__title, .nsw-accordion__content, ...
+  const rows = [headerRow];
+  const children = Array.from(accordion.children);
+  for (let i = 0; i < children.length; i++) {
+    const titleDiv = children[i];
+    if (titleDiv.classList.contains('nsw-accordion__title')) {
+      // Find matching content (the next .nsw-accordion__content sibling)
+      let contentDiv = null;
+      for (let j = i + 1; j < children.length; j++) {
+        if (children[j].classList.contains('nsw-accordion__content')) {
+          contentDiv = children[j];
+          break;
+        }
+        if (children[j].classList.contains('nsw-accordion__title')) {
+          // If another title is found before content, skip this entry
+          break;
+        }
+      }
+      // Extract the title text from the button (exclude icon span)
+      let titleText = '';
+      const button = titleDiv.querySelector('button');
+      if (button) {
+        // Concatenate only text nodes (excluding icon span)
+        let titleParts = [];
+        for (let k = 0; k < button.childNodes.length; k++) {
+          const node = button.childNodes[k];
+          if (node.nodeType === 3) { // 3 === TEXT_NODE
+            titleParts.push(node.textContent.trim());
+          }
+        }
+        titleText = titleParts.join(' ').replace(/\s+/g, ' ').trim();
+      }
+      // Content cell: Use the .nsw-wysiwyg-content element if present, else the contentDiv itself
+      let contentCell = '';
+      if (contentDiv) {
+        const wysiwyg = contentDiv.querySelector('.nsw-wysiwyg-content');
+        contentCell = wysiwyg ? wysiwyg : contentDiv;
+      }
+      // Only add if there is any content (graceful if missing)
+      rows.push([titleText, contentCell]);
     }
-  });
+  }
 
-  // Combine the header row with the extracted rows
-  const cells = [headerRow, ...rows];
-
-  // Create the table block using DOMUtils helper
-  const block = WebImporter.DOMUtils.createTable(cells, document);
-
-  // Replace the original element with the generated block table
-  element.replaceWith(block);
+  const table = WebImporter.DOMUtils.createTable(rows, document);
+  element.replaceWith(table);
 }

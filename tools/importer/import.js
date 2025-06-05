@@ -11,14 +11,14 @@
  */
 /* global WebImporter */
 /* eslint-disable no-console */
-import cards1Parser from './parsers/cards1.js';
-import columns5Parser from './parsers/columns5.js';
-import columns6Parser from './parsers/columns6.js';
 import search2Parser from './parsers/search2.js';
 import columns9Parser from './parsers/columns9.js';
-import tabs3Parser from './parsers/tabs3.js';
-import accordion7Parser from './parsers/accordion7.js';
 import embedVideo8Parser from './parsers/embedVideo8.js';
+import columns6Parser from './parsers/columns6.js';
+import columns5Parser from './parsers/columns5.js';
+import accordion7Parser from './parsers/accordion7.js';
+import tabs3Parser from './parsers/tabs3.js';
+import cards1Parser from './parsers/cards1.js';
 import headerParser from './parsers/header.js';
 import metadataParser from './parsers/metadata.js';
 import cleanupTransformer from './transformers/cleanup.js';
@@ -34,14 +34,14 @@ import {
 
 const parsers = {
   metadata: metadataParser,
-  cards1: cards1Parser,
-  columns5: columns5Parser,
-  columns6: columns6Parser,
   search2: search2Parser,
   columns9: columns9Parser,
-  tabs3: tabs3Parser,
-  accordion7: accordion7Parser,
   embedVideo8: embedVideo8Parser,
+  columns6: columns6Parser,
+  columns5: columns5Parser,
+  accordion7: accordion7Parser,
+  tabs3: tabs3Parser,
+  cards1: cards1Parser,
 };
 
 const transformers = {

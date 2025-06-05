@@ -1,43 +1,49 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-    const headerRow = ['Tabs (tabs3)'];
-    const rows = [];
+  // Find the main nav menu
+  const nav = element.querySelector('nav.dcs-main-nav');
+  if (!nav) return;
+  const mainList = nav.querySelector('ul.dcs-main-nav__list--primary');
+  if (!mainList) return;
+  const liTabs = Array.from(mainList.querySelectorAll(':scope > li'));
 
-    const tabs = element.querySelectorAll(':scope > nav > ul > li');
+  const rows = [];
+  // Header row exactly as required
+  rows.push(['Tabs (tabs3)']);
 
-    tabs.forEach((tab) => {
-      const tabLabelElement = tab.querySelector('a > span');
-      const tabLabel = tabLabelElement ? tabLabelElement.textContent.trim() : 'Unnamed Tab';
-
-      const tabContentWrapper = tab.querySelector('.dcs-main-nav__sub-wrapper');
-      const tabContent = [];
-
-      if (tabContentWrapper) {
-        const subNavList = tabContentWrapper.querySelector('.dcs-main-nav__list--secondary');
-        if (subNavList) {
-          subNavList.querySelectorAll('li > a').forEach((link) => {
-            tabContent.push(link);
-          });
-        }
-
-        const promotedList = tabContentWrapper.querySelector('.dcs-main-nav__list--promoted');
-        if (promotedList) {
-          promotedList.querySelectorAll('li > a').forEach((link) => {
-            tabContent.push(link);
-          });
-        }
-
-        const ctaButton = tabContentWrapper.querySelector('.dcs-main-nav__sub-link > a');
-        if (ctaButton) {
-          tabContent.push(ctaButton);
-        }
+  // Add a row for each tab
+  liTabs.forEach(li => {
+    // Tab label is the anchor's first span (if present) or anchor text
+    let tabLabel = '';
+    const anchor = li.querySelector(':scope > a');
+    if (anchor) {
+      // Tab label is usually the first <span> direct child
+      const labelSpan = anchor.querySelector('span');
+      if (labelSpan && labelSpan.textContent.trim()) {
+        tabLabel = labelSpan.textContent.trim();
       } else {
-        tabContent.push('No content available.');
+        tabLabel = anchor.textContent.trim();
       }
+    } else {
+      // fallback: take direct text of the li
+      tabLabel = li.textContent.trim();
+    }
 
-      rows.push([tabLabel, tabContent]);
-    });
+    // Tab content: submenu if present, otherwise the anchor (for non-dropdowns)
+    let tabContent = null;
+    const subNav = li.querySelector(':scope > .dcs-main-nav__sub-nav');
+    if (subNav) {
+      tabContent = subNav;
+    } else if (anchor) {
+      tabContent = anchor;
+    } else {
+      tabContent = li;
+    }
 
-    const table = WebImporter.DOMUtils.createTable([headerRow, ...rows], document);
-    element.replaceWith(table);
+    // Push the row: [label, content]
+    rows.push([tabLabel, tabContent]);
+  });
+
+  const table = WebImporter.DOMUtils.createTable(rows, document);
+  element.replaceWith(table);
 }

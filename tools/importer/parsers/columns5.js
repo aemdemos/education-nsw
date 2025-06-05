@@ -1,34 +1,25 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Extract the relevant title from the feature content
-  const title = element.querySelector('.dcs-feature__title');
+  // Find the dcs-feature block (contains both columns)
+  const feature = element.querySelector('.dcs-feature');
+  if (!feature) return;
 
-  // Extract the textual content paragraphs
-  const paragraphs = Array.from(
-    element.querySelectorAll('.dcs-feature__html p')
-  );
+  // Left column: heading, paragraphs, and button (all in .dcs-feature__content)
+  const leftCol = feature.querySelector('.dcs-feature__content') || '';
 
-  // Extract the button (link) element
-  const button = element.querySelector('.dcs-feature__link');
+  // Right column: image (picture or img in .dcs-feature__image)
+  let rightCol = '';
+  const imageContainer = feature.querySelector('.dcs-feature__image');
+  if (imageContainer) {
+    rightCol = imageContainer.querySelector('picture,img') || '';
+  }
 
-  // Extract and keep the image element
-  const image = element.querySelector('.dcs-feature__image img');
-
-  // Structure the header row for the table
-  const headerRow = ['Columns (columns5)'];
-
-  // Structure the content row with text and image side by side
-  const contentRow = [
-    [title, ...paragraphs, button],
-    image,
+  // Header row must be a single cell, matching the markdown example exactly.
+  const tableRows = [
+    ['Columns (columns5)'], // header row, exactly one column
+    [leftCol, rightCol]     // content row, 2 columns
   ];
-
-  // Create the block table using WebImporter.DOMUtils.createTable()
-  const blockTable = WebImporter.DOMUtils.createTable(
-    [headerRow, contentRow],
-    document
-  );
-
-  // Replace the original element with the new block table
-  element.replaceWith(blockTable);
+  
+  const table = WebImporter.DOMUtils.createTable(tableRows, document);
+  element.replaceWith(table);
 }

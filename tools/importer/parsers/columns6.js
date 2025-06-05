@@ -1,42 +1,42 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  const headerRow = ['Columns (columns6)'];
+  // Locate the feature block
+  const feature = element.querySelector('.dcs-feature');
+  if (!feature) return;
 
-  const contentCells = [];
-
-  const children = element.querySelectorAll(':scope > div > div > div > div');
-
-  children.forEach((child) => {
-    const contentBlock = [];
-
-    const title = child.querySelector('.dcs-feature__title');
-    if (title) {
-      contentBlock.push(title);
+  // Left column: image
+  let leftCol = null;
+  const imageWrapper = feature.querySelector('.dcs-feature__image');
+  if (imageWrapper) {
+    // Prefer <picture>, fallback to <img>
+    const picture = imageWrapper.querySelector('picture');
+    if (picture) {
+      leftCol = picture;
+    } else {
+      leftCol = imageWrapper.querySelector('img');
     }
+  }
 
-    const description = child.querySelector('.dcs-feature__html');
-    if (description) {
-      contentBlock.push(description);
-    }
+  // Right column: heading, description, button (in order)
+  let rightColEls = [];
+  const content = feature.querySelector('.dcs-feature__content');
+  if (content) {
+    const nodes = [];
+    const title = content.querySelector('.dcs-feature__title');
+    if (title) nodes.push(title);
+    const html = content.querySelector('.dcs-feature__html');
+    if (html) nodes.push(html);
+    const button = content.querySelector('a');
+    if (button) nodes.push(button);
+    rightColEls = nodes;
+  }
 
-    const button = child.querySelector('a.dcs-feature__link');
-    if (button) {
-      contentBlock.push(button);
-    }
+  // Compose the block table with the header row as a single cell
+  const cells = [
+    ['Columns (columns6)'],
+    [leftCol, rightColEls],
+  ];
 
-    const image = child.querySelector('picture');
-    if (image) {
-      contentBlock.push(image);
-    }
-
-    if (contentBlock.length > 0) {
-      contentCells.push(contentBlock);
-    }
-  });
-
-  const tableData = [headerRow, ...contentCells.map((cell) => [cell])];
-
-  const blockTable = WebImporter.DOMUtils.createTable(tableData, document);
-
-  element.replaceWith(blockTable);
+  const block = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(block);
 }
