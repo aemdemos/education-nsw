@@ -19,12 +19,6 @@
         "source": "CRAWL",
         "targetPath": "/skills-nsw/students-and-job-seekers",
         "id": "917f933356475ebf67b932b1c951bdce0807cf3e"
-      },
-      {
-        "url": "https://education.nsw.gov.au/schooling/calendars",
-        "source": "CRAWL",
-        "targetPath": "/schooling/calendars",
-        "id": "2b3ed15c4d3acef5c2c80c16b55f9aa8bca16p34"
       }
     ],
     "crawlOptions": {
