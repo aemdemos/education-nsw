@@ -6,25 +6,25 @@
         "url": "https://education.nsw.gov.au/",
         "source": "CRAWL",
         "targetPath": "/index",
-        "id": "08c44ec601d25fdaecc58fb2c3e48ff41d6e2852"
+        "id": "85ba8532fc8f5299ccec2810977bd592f5270768"
       },
       {
         "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
         "source": "CRAWL",
         "targetPath": "/early-childhood-education/leadership/sector-updates",
-        "id": "b94479db1ac5bbf784606878fb8fd68b085d2c95"
+        "id": "3001697bed33d76e958530b054c1813bea562016"
       },
       {
         "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
         "source": "CRAWL",
         "targetPath": "/skills-nsw/students-and-job-seekers",
-        "id": "917f933356475ebf67b932b1c951bdce0807cf3e"
+        "id": "a3e03d6eab3d59473c3a3435e738d940e09f89e4"
       },
       {
         "url": "https://education.nsw.gov.au/schooling/calendars",
         "source": "CRAWL",
         "targetPath": "/schooling/calendars",
-        "id": "2b3ed15c4d3acef5c2c80c16b55f9aa8bca16p34"
+        "id": "7dd5eadeb882dc1d8667748e81c732b4cf37328e"
       }
     ],
     "crawlOptions": {
