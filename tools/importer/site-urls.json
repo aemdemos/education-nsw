@@ -3,7 +3,7 @@
     "lastCrawled": "https://education.nsw.gov.au",
     "urls": [
       {
-        "url": "https://education.nsw.gov.au/",
+        "url": "https://education.nsw.gov.au",
         "source": "CRAWL",
         "targetPath": "/index",
         "id": ""
