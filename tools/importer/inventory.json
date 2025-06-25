@@ -1,0 +1,819 @@
+{
+  "fragments": [
+    {
+      "name": "nav",
+      "path": "/nav",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        }
+      ]
+    },
+    {
+      "name": "footer",
+      "path": "/footer",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-07-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-06-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-09-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-08-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-11-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+          "xpath": "/html[1]/body[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-10-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "name": "header",
+      "cluster": 1,
+      "source": "Header",
+      "target": "Header (header1)",
+      "key": "header1",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "cluster": 2,
+      "source": "Header",
+      "target": "Header (header2)",
+      "key": "header2",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        }
+      ]
+    },
+    {
+      "name": "Embed (video)",
+      "cluster": 3,
+      "source": "Embed",
+      "target": "Embed (embedVideo3)",
+      "key": "embedVideo3",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-04-c1d8695edf92ada77fa574ad31a5d1521290f80d",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[6]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-04-c1d8695edf92ada77fa574ad31a5d1521290f80d",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[6]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-04-c1d8695edf92ada77fa574ad31a5d1521290f80d",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[6]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-04-c1d8695edf92ada77fa574ad31a5d1521290f80d",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[6]"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "cluster": 4,
+      "source": "Header",
+      "target": "Header (header4)",
+      "key": "header4",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 5,
+      "source": "Columns",
+      "target": "Columns (columns5)",
+      "key": "columns5",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 6,
+      "source": "Columns",
+      "target": "Columns (columns6)",
+      "key": "columns6",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-05-a456629bd1e19e9c9df21e4d061c913e9b4b2cba",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[1]"
+        },
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-05-a456629bd1e19e9c9df21e4d061c913e9b4b2cba",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 7,
+      "source": "Columns",
+      "target": "Columns (columns7)",
+      "key": "columns7",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 8,
+      "source": "Columns",
+      "target": "Columns (columns8)",
+      "key": "columns8",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-10-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 9,
+      "source": "Cards",
+      "target": "Cards (cards9)",
+      "key": "cards9",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-07-cd9eda6d3bf60138c1eec851e0263ab025319d10",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/section[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 10,
+      "source": "Columns",
+      "target": "Columns (columns10)",
+      "key": "columns10",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-08-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 11,
+      "source": "Columns",
+      "target": "Columns (columns11)",
+      "key": "columns11",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-05-3d9a6213508c04d01f1483cfc37cfe314ad9f505",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "cluster": 12,
+      "source": "Header",
+      "target": "Header (header12)",
+      "key": "header12",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-02-bc0775b3ada089eb44aaff2e387809ce1597b403",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/nav[1]"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "cluster": 13,
+      "source": "Header",
+      "target": "Header (header13)",
+      "key": "header13",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/schooling/calendars",
+          "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+          "uuid": "7dd5eade-01-88f7103fcb1db4425682bc1d2707535da2c96447",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[4]/div[2]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 14,
+      "source": "Cards",
+      "target": "Cards (cards14)",
+      "key": "cards14",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-09-728d42178024dc3e929ae256ac47ae61344fe485",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[3]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Cards (no images)",
+      "cluster": 15,
+      "source": "Cards",
+      "target": "Cards (cardsNoImages15)",
+      "key": "cardsNoImages15",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-07-be3ab5621409d3b920808edae5935ca3daf72a59",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Accordion",
+      "cluster": 16,
+      "source": "Accordion",
+      "target": "Accordion",
+      "key": "accordion16",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-05-494bdb6e4bda012740ec09a76b6818e9245fcfc0",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 17,
+      "source": "Cards",
+      "target": "Cards (cards17)",
+      "key": "cards17",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+          "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+          "uuid": "a3e03d6e-07-be3ab5621409d3b920808edae5935ca3daf72a59",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Cards (no images)",
+      "cluster": 18,
+      "source": "Cards",
+      "target": "Cards (cardsNoImages18)",
+      "key": "cardsNoImages18",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-08-7345819015fbd460a98c9d6f2c54543744d64ea2",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[4]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 19,
+      "source": "Cards",
+      "target": "Cards (cards19)",
+      "key": "cards19",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+          "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+          "uuid": "5758ab78-07-be3ab5621409d3b920808edae5935ca3daf72a59",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 20,
+      "source": "Cards",
+      "target": "Cards (cards20)",
+      "key": "cards20",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-07-fdd847c93939a3ffcf7198bf17ea9e940a994915",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[2]"
+        }
+      ]
+    },
+    {
+      "name": "Embed (video)",
+      "cluster": 21,
+      "source": "Embed",
+      "target": "Embed (embedVideo21)",
+      "key": "embedVideo21",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-04-c1d8695edf92ada77fa574ad31a5d1521290f80d",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[6]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 22,
+      "source": "Columns",
+      "target": "Columns (columns22)",
+      "key": "columns22",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+          "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+          "uuid": "3001697b-06-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 23,
+      "source": "Columns",
+      "target": "Columns (columns23)",
+      "key": "columns23",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-05-a456629bd1e19e9c9df21e4d061c913e9b4b2cba",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Hero",
+      "cluster": 24,
+      "key": "hero24",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-03-9a3297dc7b71fe97739cd36dd929604158ee2c6f",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]"
+        }
+      ]
+    },
+    {
+      "name": "Columns",
+      "cluster": 25,
+      "source": "Columns",
+      "target": "Columns (columns25)",
+      "key": "columns25",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-09-d864c70d25f830989e674715c00eda2b45583a5c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[3]"
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "cluster": 26,
+      "source": "Cards",
+      "target": "Cards (cards26)",
+      "key": "cards26",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au",
+          "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+          "uuid": "3eb9e84a-05-d159eaf64102e6bcaf0d55f8c5968010b260d14c",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "cluster": 27,
+      "source": "Header",
+      "target": "Header (header27)",
+      "key": "header27",
+      "instances": [
+        {
+          "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+          "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+          "uuid": "96deb27e-00-9f136afa3b292f0178a763f24125bf7f979bef71",
+          "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        }
+      ]
+    }
+  ],
+  "outliers": [
+    {
+      "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+      "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+      "uuid": "3001697b-03-addf0790109e3a5154650390a46aabc348f5f2ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[5]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/early-childhood-education/leadership/sector-updates",
+      "urlHash": "3001697bed33d76e958530b054c1813bea562016",
+      "uuid": "3001697b-07-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au",
+      "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+      "uuid": "3eb9e84a-04-6470b0a9172b4c85ecf1f2c101c8ee38fa8fa9ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au",
+      "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+      "uuid": "3eb9e84a-06-2b6d2579c557d879efb1d28a543f58e28accb6a3",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au",
+      "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+      "uuid": "3eb9e84a-08-e3f2425157e1d5c1cc1345ac466f83a2a5fc7ef1",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au",
+      "urlHash": "3eb9e84a4ec701b1652aa67736976fe1edae9ee4",
+      "uuid": "3eb9e84a-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+      "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+      "uuid": "5758ab78-03-addf0790109e3a5154650390a46aabc348f5f2ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[5]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+      "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+      "uuid": "5758ab78-06-2083cef023bf1102553b6f9c957ab12c1ed55529",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/h2[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/teach-nsw/explore-teaching",
+      "urlHash": "5758ab7828f08eb759a12bb82ed5517ad26378e2",
+      "uuid": "5758ab78-09-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/schooling/calendars",
+      "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+      "uuid": "7dd5eade-03-addf0790109e3a5154650390a46aabc348f5f2ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[5]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/schooling/calendars",
+      "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+      "uuid": "7dd5eade-06-ba169461db23a6c12a974436cc9113bb52cac659",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/section[1]/div[1]/h2[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/schooling/calendars",
+      "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+      "uuid": "7dd5eade-08-e3ace79c6230f86fd88bfc274295176999a55bbc",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/schooling/calendars",
+      "urlHash": "7dd5eadeb882dc1d8667748e81c732b4cf37328e",
+      "uuid": "7dd5eade-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+      "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+      "uuid": "96deb27e-03-addf0790109e3a5154650390a46aabc348f5f2ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[5]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+      "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+      "uuid": "96deb27e-06-2083cef023bf1102553b6f9c957ab12c1ed55529",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/h2[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/early-childhood-education/about-us",
+      "urlHash": "96deb27e897cd0e8c032e240ffc3174495b4be65",
+      "uuid": "96deb27e-10-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+      "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+      "uuid": "a3e03d6e-03-addf0790109e3a5154650390a46aabc348f5f2ac",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[5]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+      "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+      "uuid": "a3e03d6e-06-2083cef023bf1102553b6f9c957ab12c1ed55529",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[2]/div[1]/section[1]/div[1]/h2[1]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+      "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+      "uuid": "a3e03d6e-08-44a7c88d643c42f0ded5ddc8d38c997b71a94c94",
+      "xpath": "/html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/div[1]/main[1]/div[1]/div[3]/div[1]/div[2]"
+    },
+    {
+      "url": "https://education.nsw.gov.au/skills-nsw/students-and-job-seekers",
+      "urlHash": "a3e03d6eab3d59473c3a3435e738d940e09f89e4",
+      "uuid": "a3e03d6e-11-ab3e4de776b49f538ccb9d433b686862faf5a7cc",
+      "xpath": "/html[1]/body[1]/div[3]"
+    }
+  ]
+}
