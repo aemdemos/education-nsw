@@ -97,7 +97,7 @@ export function generateDocumentPath({ params: { originalURL } }, inventory) {
   let p;
   const urlEntry = inventory.urls?.find(({ url }) => url === originalURL);
   if (urlEntry?.targetPath) {
-    p = urlEntry.targetPath;
+    p = urlEntry.targetPath === '/' ? '/index' : urlEntry.targetPath;
   } else {
     // fallback to original URL pathname
     p = new URL(originalURL).pathname;
@@ -160,7 +160,7 @@ export const TableBuilder = (originalFunc) => {
   };
 };
 
-function reduceInstances(instances) {
+function reduceInstances(instances = []) {
   return instances.map(({ urlHash, xpath, uuid }) => ({
     urlHash,
     xpath,
@@ -179,12 +179,14 @@ export function mergeInventory(siteUrls, inventory, publishUrl) {
   // Extract originUrl and targetUrl from siteUrls
   const { originUrl, targetUrl } = siteUrls;
 
-  // Transform URLs array to remove source property
-  const urls = siteUrls.urls.map(({ url, targetPath, id }) => ({
-    url,
-    targetPath,
-    id,
-  }));
+  // Transform URLs array to filter out excluded URLs and remove source property
+  const urls = siteUrls.urls
+    .filter(({ status }) => status !== 'EXCLUDED')
+    .map(({ url, targetPath, id }) => ({
+      url,
+      targetPath,
+      id,
+    }));
 
   // Transform fragments to use simplified instance format
   const fragments = inventory.fragments.map((fragment) => ({

@@ -11,15 +11,27 @@
  */
 /* global WebImporter */
 /* eslint-disable no-console */
-import search2Parser from './parsers/search2.js';
-import tabs3Parser from './parsers/tabs3.js';
-import embedVideo8Parser from './parsers/embedVideo8.js';
+import cardsNoImages15Parser from './parsers/cardsNoImages15.js';
+import cards14Parser from './parsers/cards14.js';
+import columns11Parser from './parsers/columns11.js';
+import cardsNoImages18Parser from './parsers/cardsNoImages18.js';
+import cards17Parser from './parsers/cards17.js';
+import cards19Parser from './parsers/cards19.js';
+import cards20Parser from './parsers/cards20.js';
+import accordion16Parser from './parsers/accordion16.js';
+import cards9Parser from './parsers/cards9.js';
+import hero24Parser from './parsers/hero24.js';
 import columns5Parser from './parsers/columns5.js';
+import columns7Parser from './parsers/columns7.js';
+import cards26Parser from './parsers/cards26.js';
+import columns25Parser from './parsers/columns25.js';
 import columns6Parser from './parsers/columns6.js';
-import columns9Parser from './parsers/columns9.js';
-import accordion4Parser from './parsers/accordion4.js';
-import accordion7Parser from './parsers/accordion7.js';
-import cards1Parser from './parsers/cards1.js';
+import columns23Parser from './parsers/columns23.js';
+import columns22Parser from './parsers/columns22.js';
+import embedVideo3Parser from './parsers/embedVideo3.js';
+import columns10Parser from './parsers/columns10.js';
+import columns8Parser from './parsers/columns8.js';
+import embedVideo21Parser from './parsers/embedVideo21.js';
 import headerParser from './parsers/header.js';
 import metadataParser from './parsers/metadata.js';
 import cleanupTransformer from './transformers/cleanup.js';
@@ -35,15 +47,27 @@ import {
 
 const parsers = {
   metadata: metadataParser,
-  search2: search2Parser,
-  tabs3: tabs3Parser,
-  embedVideo8: embedVideo8Parser,
+  cardsNoImages15: cardsNoImages15Parser,
+  cards14: cards14Parser,
+  columns11: columns11Parser,
+  cardsNoImages18: cardsNoImages18Parser,
+  cards17: cards17Parser,
+  cards19: cards19Parser,
+  cards20: cards20Parser,
+  accordion16: accordion16Parser,
+  cards9: cards9Parser,
+  hero24: hero24Parser,
   columns5: columns5Parser,
+  columns7: columns7Parser,
+  cards26: cards26Parser,
+  columns25: columns25Parser,
   columns6: columns6Parser,
-  columns9: columns9Parser,
-  accordion4: accordion4Parser,
-  accordion7: accordion7Parser,
-  cards1: cards1Parser,
+  columns23: columns23Parser,
+  columns22: columns22Parser,
+  embedVideo3: embedVideo3Parser,
+  columns10: columns10Parser,
+  columns8: columns8Parser,
+  embedVideo21: embedVideo21Parser,
 };
 
 const transformers = {
