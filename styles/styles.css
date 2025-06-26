@@ -47,17 +47,6 @@
 @font-face {
   font-family:"Public Sans Fallback";
   font-style:normal;
-  font-weight:600;
-  src:local("Arial Bold");
-  ascent-override:96.22%;
-  descent-override:22.79%;
-  line-gap-override:0.00%;
-  size-adjust:98.73%;
-}
-
-@font-face {
-  font-family:"Public Sans Fallback";
-  font-style:normal;
   font-weight:700;
   src:local("Arial Bold");
   ascent-override:95.22%;
@@ -67,25 +56,14 @@
 }
 
 @font-face {
-  font-family:"FontAwesomeBrands Fallback";
+  font-family:"Public Sans Fallback";
   font-style:normal;
-  font-weight:normal;
-  src:local("Arial");
-  ascent-override:87.50%;
-  descent-override:12.50%;
+  font-weight:600;
+  src:local("Arial Bold");
+  ascent-override:96.22%;
+  descent-override:22.79%;
   line-gap-override:0.00%;
-  size-adjust:100.00%;
-}
-
-@font-face {
-  font-family:"Font Awesome 5 Pro Fallback";
-  font-style:normal;
-  font-weight:normal;
-  src:local("Arial");
-  ascent-override:87.50%;
-  descent-override:12.50%;
-  line-gap-override:0.00%;
-  size-adjust:100.00%;
+  size-adjust:98.73%;
 }
 
 @font-face {
@@ -102,7 +80,7 @@
 @font-face {
   font-family:"Font Awesome 5 Pro Fallback";
   font-style:normal;
-  font-weight:400;
+  font-weight:normal;
   src:local("Arial");
   ascent-override:87.50%;
   descent-override:12.50%;
@@ -111,7 +89,7 @@
 }
 
 @font-face {
-  font-family:"FontAwesomeRegular Fallback";
+  font-family:"FontAwesomeBrands Fallback";
   font-style:normal;
   font-weight:normal;
   src:local("Arial");
@@ -136,6 +114,28 @@
   font-family:"FontAwesomeSolid Fallback";
   font-style:normal;
   font-weight:normal;
+  src:local("Arial");
+  ascent-override:87.50%;
+  descent-override:12.50%;
+  line-gap-override:0.00%;
+  size-adjust:100.00%;
+}
+
+@font-face {
+  font-family:"FontAwesomeRegular Fallback";
+  font-style:normal;
+  font-weight:normal;
+  src:local("Arial");
+  ascent-override:87.50%;
+  descent-override:12.50%;
+  line-gap-override:0.00%;
+  size-adjust:100.00%;
+}
+
+@font-face {
+  font-family:"Font Awesome 5 Pro Fallback";
+  font-style:normal;
+  font-weight:400;
   src:local("Arial");
   ascent-override:87.50%;
   descent-override:12.50%;
