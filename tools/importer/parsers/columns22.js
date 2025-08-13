@@ -1,41 +1,45 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the section footer which contains the columns
-  const sectionFooter = element.querySelector('.section-footer');
-  if (!sectionFooter) return;
-
-  // Find the row that visually contains the columns
-  const row = sectionFooter.querySelector('.gel-section-footer__row');
+  // Find the section-footer footer (contains the columns)
+  const footer = element.querySelector('.section-footer footer');
+  if (!footer) return;
+  const row = footer.querySelector('.gel-section-footer__row');
   if (!row) return;
 
-  // Get all column elements (visually: left, middle, right)
-  const columns = Array.from(row.children);
-  if (columns.length === 0) return;
+  // Get all immediate children that represent columns
+  const colDivs = Array.from(row.children).filter(child => child.tagName === 'DIV');
+  if (!colDivs.length) return;
 
-  // Gather all direct children of each column into the contentRow
-  const contentRow = columns.map((col) => {
-    // If only text nodes, wrap in a div
-    if (col.childNodes.length === 1 && col.childNodes[0].nodeType === Node.TEXT_NODE) {
-      const wrapper = document.createElement('div');
-      wrapper.textContent = col.textContent;
-      return wrapper;
-    }
-    // If has element children, gather all direct children
-    const fragment = document.createDocumentFragment();
-    Array.from(col.childNodes).forEach((node) => {
-      if (node.nodeType === Node.ELEMENT_NODE || (node.nodeType === Node.TEXT_NODE && node.textContent.trim())) {
-        fragment.appendChild(node);
+  // Helper to gather all real content from a column div
+  function gatherContent(div) {
+    const result = [];
+    div.childNodes.forEach(node => {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        result.push(node);
+      } else if (node.nodeType === Node.TEXT_NODE) {
+        const txt = node.textContent.trim();
+        if (txt) {
+          const span = document.createElement('span');
+          span.textContent = txt;
+          result.push(span);
+        }
       }
     });
-    // If only one node, just return that node
-    if (fragment.childNodes.length === 1) return fragment.childNodes[0];
-    // If more, return an array (so createTable can handle)
-    return Array.from(fragment.childNodes);
-  });
+    return result.length === 1 ? result[0] : result;
+  }
 
-  // The header row should be a single cell/column only (first row is always one column)
+  // Build the content row for the block table
+  const contentRow = colDivs.map(gatherContent);
+
+  // Table header: single cell row as per the requirements
   const headerRow = ['Columns (columns22)'];
-  const cells = [headerRow, contentRow];
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+
+  // Create the table: first row is one cell, second row has one cell per column
+  const block = WebImporter.DOMUtils.createTable([
+    headerRow,
+    contentRow
+  ], document);
+
+  // Replace the original element with the new block
+  element.replaceWith(block);
 }

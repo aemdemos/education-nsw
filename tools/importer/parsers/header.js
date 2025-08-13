@@ -11,7 +11,54 @@
  */
 /* global WebImporter */
 
+const isVisible = (element) => {
+  if (element.closest('[data-hlx-imp-hidden-div]')) return false;
+
+  const style = window.getComputedStyle(element);
+  if (style.display === 'none' || style.visibility === 'hidden') return false;
+
+  return true;
+};
+
+const parseDataHlxImpRect = (element) => {
+  const rectAttribute = element.closest('div')?.getAttribute('data-hlx-imp-rect');
+  if (!rectAttribute) return { x: Infinity, y: Infinity };
+  try {
+    return JSON.parse(rectAttribute);
+  } catch (error) {
+    return { x: Infinity, y: Infinity };
+  }
+};
+
 const brandLogoMapping = [
+  {
+    checkFn: (e) => {
+      // Helper function to check if an element is visible
+
+      const links = [...e.querySelectorAll(`a[href="/"], a[href="${window.location.origin}/"]`)]
+        .filter(isVisible);
+      return links.reduce((topLeftMost, current) => {
+        const currentRect = parseDataHlxImpRect(current.closest('div'));
+        const topLeftRect = topLeftMost ? parseDataHlxImpRect(topLeftMost.closest('div')) : { y: Infinity, x: Infinity };
+
+        if (currentRect.y < topLeftRect.y
+          || (currentRect.y === topLeftRect.y && currentRect.x < topLeftRect.x)) {
+          return current;
+        }
+        return topLeftMost;
+      }, null);
+    },
+    parseFn: (e, targetEl, bodyWidth, x) => {
+      if (bodyWidth && x < bodyWidth / 2) {
+        // Create a container for the brand link
+        const brandContainer = document.createElement('div');
+        brandContainer.append(e);
+        targetEl.append(brandContainer);
+        return true;
+      }
+      return false;
+    },
+  },
   {
     checkFn: (e) => [...e.querySelectorAll('a > picture, a > img')].filter((i) => i.closest('[data-hlx-imp-hidden-div]') === null)[0],
     parseFn: (e, targetEl, bodyWidth, x) => {

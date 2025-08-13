@@ -1,46 +1,34 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Table header
+  // The table header must match the block name exactly
   const headerRow = ['Cards (cards9)'];
   const rows = [headerRow];
-
-  // Get all top-level columns (cards)
-  const cardCols = element.querySelectorAll(':scope > div');
-  cardCols.forEach((col) => {
-    // Each card is a link containing a div with h3 and p
-    const cardLink = col.querySelector('a.gel-expanded-nav__item');
-    if (!cardLink) return;
-    const contentDiv = cardLink.querySelector('div.flex-grow-1');
-    if (!contentDiv) return;
-
-    // --- First cell: Icon (mandatory, example uses icon)
-    // Use the icon element directly if present, else use an empty text node
-    let icon = contentDiv.querySelector('i');
-    icon = icon || document.createTextNode('');
-
-    // --- Second cell: Text (title as heading, description)
-    // Use the h3 and p elements directly
-    const h3 = contentDiv.querySelector('h3');
-    const p = contentDiv.querySelector('p');
-    // Ensure at least one exists for semantic correctness
-    const cellContent = [];
-    if (h3) {
-      cellContent.push(h3);
+  // Get all card elements as direct children
+  const cardDivs = element.querySelectorAll(':scope > div');
+  cardDivs.forEach((cardDiv) => {
+    // The card's content is inside the link
+    const cardLink = cardDiv.querySelector('a.gel-expanded-nav__item');
+    let iconOrImgCell = '';
+    // Compose a fragment for card body (heading, text, CTA)
+    const cellFragment = document.createDocumentFragment();
+    const h3 = cardLink.querySelector('h3');
+    const p = cardLink.querySelector('p');
+    // Use existing elements in the document. Detach them first to prevent duplicate DOM nodes.
+    if (h3) cellFragment.appendChild(h3);
+    if (p) cellFragment.appendChild(p);
+    // Add CTA as a link if cardLink has href
+    if (cardLink && cardLink.href) {
+      // For this layout, a CTA is included as a link at the bottom of text cell
+      const cta = document.createElement('a');
+      cta.href = cardLink.href;
+      cta.textContent = 'Learn more';
+      // Add a break for clarity if there is other content
+      if (h3 || p) cellFragment.appendChild(document.createElement('br'));
+      cellFragment.appendChild(cta);
     }
-    if (h3 && p) {
-      // Add a space or line break between h3 and p for clarity
-      cellContent.push(document.createElement('br'));
-    }
-    if (p) {
-      cellContent.push(p);
-    }
-    // If neither found, use empty text so cell exists
-    if (!cellContent.length) cellContent.push(document.createTextNode(''));
-
-    rows.push([icon, cellContent]);
+    rows.push([iconOrImgCell, cellFragment]);
   });
-
-  // Build and replace
+  // Replace the original element with the block table
   const table = WebImporter.DOMUtils.createTable(rows, document);
   element.replaceWith(table);
 }

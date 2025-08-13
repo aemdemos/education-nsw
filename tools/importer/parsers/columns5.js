@@ -1,32 +1,43 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the section footer row containing the columns
-  const sectionFooter = element.querySelector('.section-footer footer');
-  if (!sectionFooter) return;
-  const row = sectionFooter.querySelector('.gel-section-footer__row');
+  // Find the <footer> containing the columns
+  const footer = element.querySelector('footer');
+  if (!footer) return;
+
+  // Find the row of columns inside the footer
+  const row = footer.querySelector('.row.gel-section-footer__row');
   if (!row) return;
 
-  // Get all direct children (columns) of the row
-  const colNodes = Array.from(row.children);
-  // For each column, reference the actual element from the document (not a clone)
-  // If the column is empty, insert an empty string
-  const columns = colNodes.map(col => {
-    let hasContent = false;
-    for (let i = 0; i < col.childNodes.length; i++) {
-      if (
-        col.childNodes[i].nodeType === 1 ||
-        (col.childNodes[i].nodeType === 3 && col.childNodes[i].textContent.trim().length > 0)
-      ) {
-        hasContent = true;
-        break;
+  // Get all direct column divs (three columns)
+  const columns = Array.from(row.children);
+
+  // Extract each column's meaningful content
+  const cells = columns.map((col) => {
+    // Gather visible content inside the column
+    // Remove any empty text nodes
+    const contentNodes = Array.from(col.childNodes).filter(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent.trim().length > 0;
       }
+      return true;
+    });
+    // If only one child div, flatten its children (to remove extra wrappers)
+    if (contentNodes.length === 1 && contentNodes[0].nodeType === Node.ELEMENT_NODE && contentNodes[0].tagName === 'DIV') {
+      return Array.from(contentNodes[0].childNodes).filter(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          return node.textContent.trim().length > 0;
+        }
+        return true;
+      });
     }
-    return hasContent ? col : '';
+    return contentNodes.length === 1 ? contentNodes[0] : contentNodes;
   });
-  // Header row: exactly one cell, as required
+
+  // Build the block table, matching example: header EXACTLY, then one row with three columns
   const headerRow = ['Columns (columns5)'];
-  // The next row contains the columns as separate cells
-  const tableArray = [headerRow, columns];
-  const block = WebImporter.DOMUtils.createTable(tableArray, document);
+  const blockTable = [headerRow, cells];
+
+  // Create block table and replace original element
+  const block = WebImporter.DOMUtils.createTable(blockTable, document);
   element.replaceWith(block);
 }

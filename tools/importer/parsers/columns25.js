@@ -1,46 +1,55 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // 1. Find the section-footer/footer (the main block)
-  const sectionFooter = element.querySelector('.section-footer, footer[role="contentinfo"]');
-  if (!sectionFooter) return;
-
-  // 2. Find the columns row
-  let row = sectionFooter.querySelector('.gel-section-footer__row');
-  if (!row) {
-    const container = sectionFooter.querySelector('.container');
-    row = container ? container.querySelector('.row') : null;
-  }
-  if (!row) return;
-
-  // 3. Find the three columns
-  const col1 = row.querySelector('.gel-section-footer__col1');
-  const col2 = row.querySelector('.gel-section-footer__col2');
-  const col3 = row.querySelector('.gel-section-footer__col3');
-  const cols = [col1, col2, col3];
-
-  // Helper: Recursively collect all child nodes (elements and text), keeping structure
-  function extractContent(node) {
-    const result = [];
-    node.childNodes.forEach(child => {
-      if (child.nodeType === Node.ELEMENT_NODE) {
-        result.push(child);
-      } else if (child.nodeType === Node.TEXT_NODE) {
-        const txt = child.textContent.replace(/\s+/g, ' ').trim();
-        if (txt) result.push(document.createTextNode(txt));
-      }
-    });
-    return result.length === 1 ? result[0] : result;
+  // Find the section footer (main blue area with columns)
+  const sectionFooter = element.querySelector('.section-footer');
+  let col1 = [], col2 = [], col3 = [];
+  if (sectionFooter) {
+    // Find three column wrappers by their classes
+    const col1Wrapper = sectionFooter.querySelector('.gel-section-footer__col1');
+    const col2Wrapper = sectionFooter.querySelector('.gel-section-footer__col2');
+    const col3Wrapper = sectionFooter.querySelector('.gel-section-footer__col3');
+    if (col1Wrapper) {
+      // Social panel and logo
+      const social = col1Wrapper.querySelector('.gel-social-icons-panel');
+      if (social) col1.push(social);
+      const logo = col1Wrapper.querySelector('.gel-global-footer__logo, .gel-corporate-logo');
+      if (logo) col1.push(logo);
+    }
+    if (col2Wrapper) {
+      // Acknowledgement
+      const ack = col2Wrapper.querySelector('.gel-acknowledgement');
+      if (ack) col2.push(ack);
+    }
+    if (col3Wrapper) {
+      // Two link lists
+      const sectionLinks = col3Wrapper.querySelector('.gel-section-footer__links');
+      if (sectionLinks) col3.push(sectionLinks);
+      const globalLinks = col3Wrapper.querySelector('.gel-global-footer__links');
+      if (globalLinks) col3.push(globalLinks);
+    }
   }
 
-  // For each col, extract all nested content recursively (to ensure all text/elements are included)
-  const columnsRow = cols.map(col => col ? extractContent(col) : '');
+  // Ensure at least arrays for each column
+  if (!col1.length) col1 = [];
+  if (!col2.length) col2 = [];
+  if (!col3.length) col3 = [];
 
-  // 4. Build table
-  const table = WebImporter.DOMUtils.createTable([
-    ['Columns (columns25)'],
-    columnsRow
-  ], document);
+  // Header row
+  const headerRow = ['Columns (columns25)'];
+  // Second row: columns content
+  const row2 = [col1, col2, col3];
 
-  // 5. Replace original element
-  element.replaceWith(table);
+  // Check for print/copyright footer
+  let row3 = null;
+  const globalFooter = element.querySelector('.global-footer');
+  if (globalFooter) {
+    row3 = [globalFooter];
+  }
+
+  // Assemble block table rows
+  const cells = [headerRow, row2];
+  if (row3) cells.push(row3);
+
+  const block = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(block);
 }

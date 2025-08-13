@@ -1,33 +1,54 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Prepare the table header
+  // Header row as per example
   const headerRow = ['Cards (cardsNoImages18)'];
   const cells = [headerRow];
 
-  // Find the .wayfinder-component > .row
-  const wayfinderComponent = element.querySelector('.wayfinder-component');
-  if (wayfinderComponent) {
-    const row = wayfinderComponent.querySelector('.row');
-    if (row) {
-      // Each card is in a col-12.col-md-6.col-lg-6.d-flex
-      const cardCols = Array.from(row.querySelectorAll(':scope > div'));
-      cardCols.forEach(col => {
-        // The anchor wrapping the card
-        const link = col.querySelector('a.gel-featured-teaser-link');
-        if (!link) return;
-        // Get the card title
-        const cardTitleElem = link.querySelector('.card-title');
-        // For this HTML, the only content is the title (no description)
-        // Compose the cell content: title (as h4), arrow (as icon/span), all inside the link
-        // Reference existing elements: use the link as-is
-        
-        // Remove unrelated DOM nodes from the link clone
-        // But per instructions, reference the original element, not a clone
-        cells.push([link]);
-      });
-    }
+  // Find all card columns (noting direct children of .row)
+  const row = element.querySelector('.wayfinder-component .row');
+  if (row) {
+    const cols = row.querySelectorAll(':scope > div');
+    cols.forEach(col => {
+      // Each card is a link
+      const link = col.querySelector('a.gel-featured-teaser-link');
+      if (link) {
+        // Card content is inside .card-body
+        const cardBody = link.querySelector('.card-body');
+        let cardTitleEl = null;
+        if (cardBody) {
+          cardTitleEl = cardBody.querySelector('h4.card-title');
+        }
+        // Compose the cell: all actual text content must be present!
+        const cellContents = [];
+        if (cardTitleEl) {
+          // Use strong to retain heading emphasis per example
+          const heading = document.createElement('strong');
+          heading.textContent = cardTitleEl.textContent.trim();
+          cellContents.push(heading);
+        } else {
+          // Fallback: use all text inside the cardBody (if present)
+          if (cardBody && cardBody.textContent.trim().length > 0) {
+            const fallbackHeading = document.createElement('strong');
+            fallbackHeading.textContent = cardBody.textContent.trim();
+            cellContents.push(fallbackHeading);
+          }
+        }
+        // The CTA is the link itself
+        if (link.href && cardTitleEl) {
+          // Add a break for spacing
+          cellContents.push(document.createElement('br'));
+          const cta = document.createElement('a');
+          cta.href = link.href;
+          cta.textContent = cardTitleEl.textContent.trim();
+          cellContents.push(cta);
+        }
+        // Only add row if we have meaningful content
+        if (cellContents.length > 0) {
+          cells.push([cellContents]);
+        }
+      }
+    });
   }
-  
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  const block = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(block);
 }

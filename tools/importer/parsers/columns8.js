@@ -1,66 +1,36 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the relevant columns from the section/footer block
-  // 1st: logo, 2nd: acknowledgement, 3rd: links, 4th: copyright/print logo
-  // We'll reference the immediate content containers for each column
-  const sectionFooter = element.querySelector('.section-footer');
-  const globalFooter = element.querySelector('.global-footer');
+  // Find the grid containing the section-footer
+  const grid = element.querySelector('.aem-Grid.aem-Grid--12.aem-Grid--default--12');
+  if (!grid) return;
+  const sectionFooter = grid.querySelector('.section-footer');
+  if (!sectionFooter) return;
 
-  // Defensive: skip if main blocks not present
-  if (!sectionFooter && !globalFooter) return;
+  // Find the main row with columns
+  const row = sectionFooter.querySelector('.row.gel-section-footer__row');
+  if (!row) return;
 
-  // 1. Logo column (left)
-  let logoCol = null;
-  if (sectionFooter) {
-    // The logo is within col1 > .gel-global-footer__logo
-    const col = sectionFooter.querySelector('.gel-section-footer__col1');
-    if (col) {
-      // Only logo/image and social block (which is empty in this HTML)
-      const logoWrap = col.querySelector('.gel-global-footer__logo');
-      logoCol = logoWrap || col; // fallback to col if logoWrap is missing
-    }
+  // Get all direct column elements
+  const columns = Array.from(row.children).filter((child) => child.nodeType === 1);
+
+  // For each column, gather all content (including text nodes and elements)
+  function getColumnContent(col) {
+    if (!col.childNodes || !col.childNodes.length) return col;
+    // Use a fragment to retain text nodes and elements
+    const frag = document.createDocumentFragment();
+    Array.from(col.childNodes).forEach((node) => {
+      frag.appendChild(node);
+    });
+    return frag;
   }
+  const columnContents = columns.map(getColumnContent);
 
-  // 2. Acknowledgement column (center left)
-  let ackCol = null;
-  if (sectionFooter) {
-    const col = sectionFooter.querySelector('.gel-section-footer__col2');
-    if (col) ackCol = col;
-  }
-
-  // 3. Links columns (center right)
-  let linksCol = null;
-  if (sectionFooter) {
-    const col = sectionFooter.querySelector('.gel-section-footer__col3');
-    if (col) linksCol = col;
-  }
-
-  // 4. Copyright/print logo (bottom)
-  let copyrightCol = null;
-  if (globalFooter) {
-    // The .gel-footer-print contains all copyright info
-    const col = globalFooter.querySelector('.gel-footer-print');
-    if (col) copyrightCol = col;
-  }
-
-  // Build the columns array in the order shown in the screenshot
-  // Screenshot shows 3 columns in the top row -- logo, ack, links
-  // 4th column (copyright) is a full width row (placed as 4th cell in a new row)
-  const columns = [logoCol, ackCol, linksCol].filter(Boolean);
-
-  // Create the cells for the columns block
-  // Header:
+  // Compose the block: header single cell, then a single row with all columns as cells
   const cells = [
-    ['Columns (columns8)'],
-    columns,
+    ['Columns (columns8)'], // header: always a single cell
+    columnContents           // content row: N columns/cells
   ];
 
-  // If copyrightCol exists, add as a full-width row (single cell)
-  if (copyrightCol) {
-    cells.push([copyrightCol]);
-  }
-
-  // Remove the old element and insert the block table
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  const block = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(block);
 }

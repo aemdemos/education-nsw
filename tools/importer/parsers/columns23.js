@@ -1,34 +1,65 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Locate the columns wrapper (the .gel-banner)
-  const banner = element.querySelector('.gel-banner');
-  if (!banner) return;
+  // Get the aside containing the banner
+  const aside = element.querySelector('aside.gel-banner-container');
+  if (!aside) return;
 
-  // Get both primary columns (should be two)
-  const colDivs = banner.querySelectorAll('.col-lg-6');
-  if (colDivs.length !== 2) return;
+  // Get columns wrapper
+  const colsWrapper = aside.querySelector('.fifty_fifty_warpper.row');
+  if (!colsWrapper) return;
 
-  // Identify which column is content, which is images
-  let contentCol, imageCol;
-  if (colDivs[0].querySelector('.gel-banner__content')) {
-    contentCol = colDivs[0];
-    imageCol = colDivs[1];
-  } else {
-    contentCol = colDivs[1];
-    imageCol = colDivs[0];
+  // Get the two column elements
+  const columns = colsWrapper.querySelectorAll(':scope > div');
+  if (columns.length < 2) return;
+
+  let imageCol = null, contentCol = null;
+  columns.forEach(col => {
+    if (col.classList.contains('gel-banner__content')) {
+      contentCol = col;
+    } else {
+      imageCol = col;
+    }
+  });
+
+  // Right column: image
+  let imageCellContent = [];
+  if (imageCol) {
+    // Use only the first img that is actually present
+    const imgs = imageCol.querySelectorAll('img');
+    if (imgs.length > 0) {
+      imageCellContent.push(imgs[0]);
+    }
   }
 
-  // Get the inner content container for cleaner output
-  const contentInner = contentCol.querySelector('.banner__content-container') || contentCol;
-  // Use the entire .media-container for the image column
-  const imageInner = imageCol.querySelector('.media-container') || imageCol;
+  // Left column: heading, paragraph, button
+  let textCellContent = [];
+  if (contentCol) {
+    // Use all direct children of .banner__content-container for robust content extraction
+    const contentContainer = contentCol.querySelector('.banner__content-container');
+    if (contentContainer) {
+      // Only include existing elements in the content container
+      contentContainer.childNodes.forEach(child => {
+        // Only include elements (not text nodes)
+        if (child.nodeType === 1) {
+          textCellContent.push(child);
+        }
+      });
+    } else {
+      // Edge case: fallback to direct children
+      contentCol.childNodes.forEach(child => {
+        if (child.nodeType === 1) {
+          textCellContent.push(child);
+        }
+      });
+    }
+  }
 
-  // Build the table with the correct header
+  // Build the table
   const cells = [
     ['Columns (columns23)'],
-    [contentInner, imageInner]
+    [textCellContent, imageCellContent]
   ];
 
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  const block = WebImporter.DOMUtils.createTable(cells, document);
+  element.replaceWith(block);
 }

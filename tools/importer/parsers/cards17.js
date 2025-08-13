@@ -1,33 +1,29 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
+  // Table header as in the example
   const headerRow = ['Cards (cards17)'];
-  const rows = [headerRow];
 
-  // Get all card containers (direct children)
-  const cardContainers = element.querySelectorAll(':scope > div');
-  cardContainers.forEach((container) => {
-    // Each container has one <a> with content
-    const link = container.querySelector('a.gel-expanded-nav__item');
-    if (!link) return; // skip if missing
-    const contentDiv = link.querySelector('div.flex-grow-1');
-    if (!contentDiv) return; // skip if missing
-
-    // ICON/CARD-IMAGE CELL: Use the <i> as the left cell (icon only)
-    const icon = contentDiv.querySelector('i');
-    // For this HTML, the icon represents a right-arrow, but no visual image; keep as is
-    const iconCell = icon ? icon : document.createElement('span'); // placeholder if missing
-
-    // TEXT CELL: Heading + Description, in order, as elements
-    const textCellElements = [];
-    const heading = contentDiv.querySelector('h3');
-    if (heading) textCellElements.push(heading);
-    const para = contentDiv.querySelector('p');
-    if (para) textCellElements.push(para);
-    // No CTA in design, so nothing more in this cell
-
-    rows.push([iconCell, textCellElements]);
+  // All card containers (col-12 col-md-6 col-lg-4 d-flex)
+  const cardDivs = element.querySelectorAll(':scope > div');
+  const rows = [];
+  cardDivs.forEach(cardDiv => {
+    const link = cardDiv.querySelector('a.gel-expanded-nav__item');
+    if (!link) return;
+    const inner = link.querySelector('div.flex-grow-1');
+    if (!inner) return;
+    // Title (h3)
+    const h3 = inner.querySelector('h3');
+    // Description (p)
+    const desc = inner.querySelector('p');
+    // Compose text cell as array of nodes
+    const textCell = [];
+    if (h3) textCell.push(h3);
+    if (desc) textCell.push(desc);
+    // No image or icon in this variant, leave first cell blank
+    rows.push(['', textCell]);
   });
 
-  const table = WebImporter.DOMUtils.createTable(rows, document);
+  const tableCells = [headerRow, ...rows];
+  const table = WebImporter.DOMUtils.createTable(tableCells, document);
   element.replaceWith(table);
 }

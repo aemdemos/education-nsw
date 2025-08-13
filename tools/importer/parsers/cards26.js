@@ -1,48 +1,34 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // 1. Header row matching the example block name
+  // Table header as per block name
   const headerRow = ['Cards (cards26)'];
+  const cells = [headerRow];
 
-  // 2. Extract all card columns from the .row
-  const cardCols = element.querySelectorAll('.row > div');
-
-  const rows = Array.from(cardCols).map((col) => {
-    // Each col contains an <a> linking the whole card
-    const link = col.querySelector('a.gel-featured-teaser-link');
-    const cardBody = link ? link.querySelector('.card-body') : null;
-
-    // First column: No image/icon, so remains blank ("")
-    const imgCell = '';
-
-    // Second column: content fragment (title, description, CTA)
-    const textFrag = document.createDocumentFragment();
-
-    if (cardBody) {
-      // Heading/title
-      const title = cardBody.querySelector('h4');
-      if (title) textFrag.appendChild(title);
-      // Description (p)
-      const desc = cardBody.querySelector('p');
-      if (desc) {
-        // Add a br if title exists
-        if (title) textFrag.appendChild(document.createElement('br'));
-        textFrag.appendChild(desc);
-      }
-      // CTA (link is present, always add as last line)
-      if (link && link.href) {
-        // Add line break if there is content before
-        if (title || desc) textFrag.appendChild(document.createElement('br'));
-        const cta = document.createElement('a');
-        cta.href = link.href;
-        cta.textContent = 'Learn more';
-        textFrag.appendChild(cta);
-      }
-    }
-    return [imgCell, textFrag];
+  // Find card columns - only direct children
+  const cardCols = element.querySelectorAll(':scope .row > .col-12');
+  cardCols.forEach(col => {
+    // Each card is inside a link
+    const cardLink = col.querySelector(':scope > a.gel-featured-teaser-link');
+    // Defensive check: if no link, skip
+    if (!cardLink) return;
+    // Card content
+    const cardBody = cardLink.querySelector('.card-body.gel-featured-teaser__content_variant');
+    // Defensive check: if no body, skip
+    if (!cardBody) return;
+    // Compose card text: includes h4 (title), p (desc), and the arrow
+    // Only reference existing elements (don't clone)
+    const cardText = document.createElement('div');
+    const title = cardBody.querySelector('h4.card-title');
+    if (title) cardText.appendChild(title);
+    const desc = cardBody.querySelector('p');
+    if (desc) cardText.appendChild(desc);
+    const arrow = cardBody.querySelector('.gel-featured-teaser__arrow');
+    if (arrow) cardText.appendChild(arrow);
+    // For icon/image cell: none present, so cell is empty string
+    cells.push(['', cardText]);
   });
 
-  // Compose block table
-  const tableCells = [headerRow, ...rows];
-  const table = WebImporter.DOMUtils.createTable(tableCells, document);
+  // Create and replace with block table
+  const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
 }

@@ -1,32 +1,28 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header row as per the example
+  // Header row per spec
   const headerRow = ['Cards (cardsNoImages15)'];
   const rows = [headerRow];
 
-  // Each "col-12..." div is a card
-  const cardCols = element.querySelectorAll(':scope > div');
-
-  cardCols.forEach((col) => {
-    // Find the link which wraps the card content
-    const link = col.querySelector('a.gel-expanded-nav__item');
-    if (!link) return;
-    // The content is in the div inside the link
-    const contentDiv = link.querySelector('div.flex-grow-1');
-    if (!contentDiv) return;
-    // Start a fragment for the card content
-    const frag = document.createDocumentFragment();
-    // Heading (optional)
-    const heading = contentDiv.querySelector('h3');
-    if (heading) frag.appendChild(heading);
-    // Description (optional)
-    const desc = contentDiv.querySelector('p');
-    if (desc) frag.appendChild(desc);
-    // No CTA, as the whole card is the link; nothing more to add.
-    rows.push([frag]);
+  // Select all card columns (direct children)
+  const cardColDivs = element.querySelectorAll(':scope > div');
+  cardColDivs.forEach((colDiv) => {
+    // Each col contains an <a> with card body inside
+    const anchor = colDiv.querySelector('a');
+    if (!anchor) return;
+    const cardContentDiv = anchor.querySelector('div');
+    if (!cardContentDiv) return;
+    // Remove icon if present (do not include in block)
+    const cardContentNodes = Array.from(cardContentDiv.childNodes).filter(node => {
+      return !(node.nodeType === 1 && node.tagName === 'I');
+    });
+    // Only push if there's content
+    if (cardContentNodes.length > 0) {
+      rows.push([cardContentNodes]);
+    }
   });
 
-  // Create and replace the block
+  // Create the block and replace
   const block = WebImporter.DOMUtils.createTable(rows, document);
   element.replaceWith(block);
 }

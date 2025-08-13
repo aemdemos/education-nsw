@@ -1,52 +1,43 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Table header
-  const cells = [
-    ['Cards (cards14)']
-  ];
+  // Table header row: block name with variant as in the example
+  const headerRow = ['Cards (cards14)'];
+  const rows = [headerRow];
 
-  // Find all card containers
-  const row = element.querySelector('.row');
-  if (!row) return;
-  const cardCols = row.querySelectorAll(':scope > div');
+  // Get all cards, which are direct children of .row inside .wayfinder-component
+  const cardDivs = element.querySelectorAll('.row > .col-12');
 
-  cardCols.forEach(col => {
-    const anchor = col.querySelector('a.gel-featured-teaser-link');
-    if (!anchor) return;
-    const card = anchor.querySelector('div.card');
+  cardDivs.forEach((colDiv) => {
+    // The card is inside the anchor
+    const cardLink = colDiv.querySelector('a.gel-featured-teaser-link');
+    const card = cardLink ? cardLink.querySelector('.card') : colDiv.querySelector('.card');
     if (!card) return;
+    // First cell: image or icon
+    const img = card.querySelector('.wayfinder-component_img'); // Use existing <img> element
 
-    // 1st cell: image element
-    let imgCell = null;
-    const img = card.querySelector('.wayfinder-component_img-wrapper img');
-    if (img) imgCell = img;
-
-    // 2nd cell: text content (heading, description, CTA)
-    const body = card.querySelector('.card-body');
-    const textCellContents = [];
-    if (body) {
-      const title = body.querySelector('h4, .card-title');
-      if (title) textCellContents.push(title);
-      const desc = body.querySelector('p');
-      if (desc) textCellContents.push(desc);
-      // Add CTA as a link with the same href as the card, using the title text as label
-      const href = anchor.getAttribute('href');
-      if (href) {
-        const cta = document.createElement('a');
-        cta.href = href;
-        // Prefer the visible arrow for CTA, but fallback to text label
-        cta.textContent = 'Learn more';
-        cta.setAttribute('style', 'display:inline-block;margin-top:12px;');
-        textCellContents.push(cta);
-      }
+    // Second cell: text content (title, description, CTA)
+    const cardBody = card.querySelector('.card-body');
+    const content = [];
+    // Title
+    const title = cardBody && cardBody.querySelector('h4.card-title');
+    if (title) content.push(title);
+    // Description
+    const desc = cardBody && cardBody.querySelector('p');
+    if (desc) content.push(desc);
+    // CTA - only if anchor exists and has href
+    if (cardLink && cardLink.href) {
+      // Use visible arrow icon + link text (title) as CTA
+      // But only add link if there is an href and actual title
+      const link = document.createElement('a');
+      link.href = cardLink.href;
+      link.textContent = (title && title.textContent) ? title.textContent : 'Learn more';
+      content.push(link);
     }
-    cells.push([
-      imgCell,
-      textCellContents
-    ]);
+    // Add row to the table
+    rows.push([img, content]);
   });
 
-  // Create and replace table
-  const table = WebImporter.DOMUtils.createTable(cells, document);
+  // Create table and replace element
+  const table = WebImporter.DOMUtils.createTable(rows, document);
   element.replaceWith(table);
 }
