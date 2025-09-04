@@ -3366,10 +3366,10 @@
         }
       ],
       "figma": {
-        "setId": "21298:43671",
+        "setId": "21298:43790",
         "setName": "Card Content",
-        "componentId": "21298:43780",
-        "componentName": "Content type=image vertical, Viewport=992px +, Style=white"
+        "componentId": "21298:43790",
+        "componentName": "Card Content – Content type=image vertical, Viewport=992px +, Style=brand light"
       }
     },
     {
